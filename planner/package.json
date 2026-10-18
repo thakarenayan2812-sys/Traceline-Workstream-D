@@ -1,0 +1,13 @@
+{
+  "name": "traceline-planner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Traceline Workstream D: blueprint planner, optimizer and demo core (no runtime dependencies).",
+  "scripts": {
+    "test": "node --test",
+    "fixtures": "node tools/make_sample_replay.js",
+    "crowd": "node tools/run_crowd.js"
+  },
+  "engines": { "node": ">=20" }
+}

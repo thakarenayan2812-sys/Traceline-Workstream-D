@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Traceline demo</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<a class="skip" href="#map">Skip to map</a>
+<header class="bar">
+  <h1>Traceline</h1>
+  <p class="badge sim" role="note"><span aria-hidden="true">&#9888;</span> Simulated data. Not real hardware measurements.</p>
+  <p class="badge" id="predictor-badge" role="status">Predictor: loading</p>
+  <p class="badge" id="emergency-badge" hidden>Emergency view</p>
+</header>
+<main class="layout">
+  <section aria-labelledby="map-h">
+    <h2 id="map-h" class="sr">Venue map</h2>
+    <canvas id="map" tabindex="0" role="img" aria-label="Venue map" aria-describedby="map-desc"></canvas>
+    <p id="map-desc" class="sr"></p>
+    <div class="playback" role="group" aria-label="Replay playback">
+      <button id="play" type="button" aria-pressed="false">Play</button>
+      <button id="step-back" type="button" aria-label="Previous step">&#9664; Step</button>
+      <button id="step-fwd" type="button" aria-label="Next step">Step &#9654;</button>
+      <button id="reset" type="button">Reset</button>
+      <label class="inline">Speed <select id="speed" aria-label="Replay speed"></select></label>
+      <span id="step-label" class="muted" aria-live="off"></span>
+    </div>
+    <label class="scrub-l" for="scrub">Replay position</label>
+    <input id="scrub" type="range" min="0" max="0" value="0" step="1">
+    <p class="muted keys">Keyboard: Space plays or pauses. Left and Right arrows step. Home and End go to the first and last step. These keys do nothing while a button, slider or menu has focus, so they never fire twice.</p>
+    <ul class="legend" aria-label="Map legend">
+      <li><i class="k truth"></i>Ground truth (replay only)</li>
+      <li><i class="k est"></i>Estimated position</li>
+      <li><i class="k fut"></i>Forecast, +0.5 to +2 s</li>
+      <li><i class="k unc"></i>Uncertainty (1 sigma)</li>
+      <li><i class="k anc"></i>Anchor (hollow if off)</li>
+      <li><i class="k ob"></i>Suspected obstructed anchor</li>
+      <li><i class="k crowdk"></i>Crowd zone (dotted)</li>
+      <li><i class="k rest"></i>Restricted zone (dashed)</li>
+    </ul>
+    <p id="warning" class="warning" role="status" data-level="ok"></p>
+    <p id="emergency-note" class="emerg-note"></p>
+  </section>
+  <aside aria-labelledby="ctl-h">
+    <h2 id="ctl-h">Scenario controls</h2>
+    <p class="muted">Controls change the recorded replay. Readings are altered and labelled.</p>
+    <div class="ctl"><label for="anchors">Active anchors</label><input id="anchors" type="range" min="3" max="6" step="1" value="6"><span class="val"></span></div>
+    <div class="ctl"><label for="noise">Range noise</label><input id="noise" type="range" min="1" max="3" step="0.1" value="1"><span class="val"></span></div>
+    <div class="ctl"><label for="dropout">Extra dropout</label><input id="dropout" type="range" min="0" max="0.5" step="0.05" value="0"><span class="val"></span></div>
+    <div class="ctl"><label for="obstruction">Obstruction bias</label><input id="obstruction" type="range" min="0" max="2" step="0.1" value="1"><span class="val"></span></div>
+    <div class="ctl"><label for="crowd">Crowd density</label><input id="crowd" type="range" min="0" max="4" step="0.5" value="0"><span class="val"></span></div>
+    <p><button id="reset-controls" type="button">Reset controls</button></p>
+    <p class="ctl-check"><label><input id="emergency" type="checkbox"> Emergency tracking view</label></p>
+    <p class="ctl-check"><label><input id="reduce-motion" type="checkbox"> Reduce motion (no map trail fade)</label></p>
+
+    <h2>Diagnostics, current step</h2>
+    <dl id="diag" class="status"></dl>
+
+    <h2>Error so far (played steps)</h2>
+    <table class="runs">
+      <thead><tr><th scope="col">Estimator</th><th scope="col">Steps</th><th scope="col">Median</th><th scope="col">P90</th><th scope="col">Note</th></tr></thead>
+      <tbody id="runs"></tbody>
+    </table>
+
+    <h2>System status</h2>
+    <dl id="status" class="status"></dl>
+  </aside>
+  <section class="analytics" aria-labelledby="opt-h">
+    <h2 id="opt-h">Anchor placement</h2>
+    <p class="muted">A saved sample run, so you can see the optimizer's output in the demo. It is not ranked from your plan here; use the planner for that.</p>
+    <div id="optimizer-panel" class="an-grid"></div>
+  </section>
+  <section class="analytics" aria-labelledby="an-h">
+    <h2 id="an-h">Analytics from Workstream C</h2>
+    <p class="muted">Each panel says where its numbers come from. Until C's output arrives, the stand-in values are labelled as stand-ins, and sections with no output say "Not yet generated".</p>
+    <p id="analytics-summary" class="muted" role="status"></p>
+    <div id="analytics-panels" class="an-grid"></div>
+  </section>
+</main>
+<p id="live" class="sr" aria-live="polite"></p>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

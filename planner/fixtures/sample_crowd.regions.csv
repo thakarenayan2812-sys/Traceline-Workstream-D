@@ -1,0 +1,13 @@
+region,region_kind,layout,anchors,cells,area_m2,uncovered_cells,uncovered_fraction,mean_usable_anchors,min_usable_anchors,mean_required_anchors
+all,all,unaware,18,1480,1480,40,0.027,4.0689,2,3.0541
+inside_crowd,inside_crowd,unaware,18,80,80,32,0.4,3.6125,3,4
+outside_crowd,outside_crowd,unaware,18,1400,1400,8,0.0057,4.095,2,3
+zone_001,zone,unaware,18,80,80,32,0.4,3.6125,3,4
+all,all,aware,19,1480,1480,0,0,4.3946,3,3.0541
+inside_crowd,inside_crowd,aware,19,80,80,0,0,5.1,4,4
+outside_crowd,outside_crowd,aware,19,1400,1400,0,0,4.3543,3,3
+zone_001,zone,aware,19,80,80,0,0,5.1,4,4
+all,all,naive_grid_same_k,19,1480,1480,15,0.0101,4.5257,2,3.0541
+inside_crowd,inside_crowd,naive_grid_same_k,19,80,80,1,0.0125,5.025,3,4
+outside_crowd,outside_crowd,naive_grid_same_k,19,1400,1400,14,0.01,4.4971,2,3
+zone_001,zone,naive_grid_same_k,19,80,80,1,0.0125,5.025,3,4

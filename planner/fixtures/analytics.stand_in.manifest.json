@@ -1,0 +1,7 @@
+{
+  "script": "tools/make_analytics_standin.js",
+  "seed": 4242,
+  "schema_version": "d8-proposed-layout-0.1",
+  "output_sha256": "dd609f8c3bcc621f9b8b2916d5712565e9d31d47dfc1e94d5fe34c286bc53910",
+  "note": "Placeholder values. Not measured results."
+}

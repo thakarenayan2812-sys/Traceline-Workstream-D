@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Traceline blueprint planner</title>
+<link rel="stylesheet" href="src/ui/planner.css">
+</head>
+<body>
+<a class="skip" href="#stage">Skip to drawing area</a>
+<header class="bar">
+  <h1>Traceline planner</h1>
+  <p class="badge"><span aria-hidden="true">&#9679;</span> Runs in your browser. Your plan is never uploaded.</p>
+  <p class="badge warn"><span aria-hidden="true">&#9888;</span> Geometric planning aid, not a radio guarantee.</p>
+</header>
+<main class="layout">
+  <section class="stagebox" aria-labelledby="stage-h">
+    <h2 id="stage-h" class="sr">Floor plan drawing area</h2>
+    <div id="tools" class="toolbar" role="group" aria-label="Drawing tools"></div>
+    <canvas id="stage" tabindex="0" role="application" aria-label="Floor plan canvas. Use arrow keys to move the crosshair and Enter to place a point." aria-describedby="message keys"></canvas>
+    <p id="message" role="status" aria-live="polite"></p>
+    <details id="keys" class="keys">
+      <summary>Keyboard and mouse help</summary>
+      <ul>
+        <li>Arrow keys move the crosshair (hold Shift for bigger steps). Enter or Space places a point.</li>
+        <li>F finishes a shape. Backspace removes the last point. Escape cancels drawing.</li>
+        <li>Ctrl or Cmd + Z undoes. Ctrl or Cmd + Y, or Shift + Ctrl + Z, redoes.</li>
+        <li>Plus and minus zoom. 0 fits the image. Mouse wheel zooms; hold Shift and drag to pan.</li>
+        <li>Double-click finishes a shape when drawing with the mouse.</li>
+      </ul>
+    </details>
+  </section>
+
+  <aside class="panel" aria-label="Plan settings and results">
+    <section aria-labelledby="img-h">
+      <h2 id="img-h">Image</h2>
+      <label class="file">Choose a PNG or JPEG floor plan <input id="file" type="file" accept="image/png,image/jpeg"></label>
+      <p class="hint">You can also drop an image onto the drawing area.</p>
+      <ul id="upload-errors" class="problems" role="alert"></ul>
+    </section>
+
+    <section aria-labelledby="scale-h">
+      <h2 id="scale-h">Scale</h2>
+      <label for="known">Real distance between the two scale points (metres)</label>
+      <input id="known" type="number" inputmode="decimal" min="0" step="any">
+      <p id="scale-readout" class="hint"></p>
+    </section>
+
+    <section aria-labelledby="opt-h">
+      <h2 id="opt-h">Drawing options</h2>
+      <div id="opt-wall" hidden>
+        <label for="material">Wall material (recorded only; version 1 treats every wall as fully blocking)</label>
+        <select id="material"><option>drywall</option><option>concrete</option><option>brick</option><option>glass</option><option>metal</option></select>
+        <label class="inline"><input id="chain" type="checkbox" checked> Start the next wall where the last one ended</label>
+      </div>
+      <div id="opt-zone" hidden>
+        <label for="zonetype">Zone type</label>
+        <select id="zonetype"></select>
+        <label for="zonename">Name (optional)</label>
+        <input id="zonename" type="text" maxlength="60" autocomplete="off">
+        <div id="opt-density">
+          <label for="density">Crowd density, people per square metre (0 to 4, optional)</label>
+          <input id="density" type="number" min="0" max="4" step="0.1">
+        </div>
+      </div>
+      <p id="opt-none" class="hint">Pick a tool to see its options.</p>
+      <div class="row">
+        <button id="finish" type="button">Finish shape</button>
+        <button id="cancel" type="button">Cancel drawing</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="hist-h">
+      <h2 id="hist-h">Edit</h2>
+      <div class="row">
+        <button id="undo" type="button">Undo</button>
+        <button id="redo" type="button">Redo</button>
+        <button id="reset" type="button">Reset scale and tracing</button>
+      </div>
+      <div class="row">
+        <button id="zin" type="button" aria-label="Zoom in">+</button>
+        <button id="zout" type="button" aria-label="Zoom out">&minus;</button>
+        <button id="zfit" type="button">Fit image</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="items-h">
+      <h2 id="items-h">Traced items</h2>
+      <ul id="items" class="items"></ul>
+    </section>
+
+    <section aria-labelledby="chk-h">
+      <h2 id="chk-h">Checks</h2>
+      <ul id="problems" class="problems"></ul>
+    </section>
+
+    <section aria-labelledby="cov-h">
+      <h2 id="cov-h">Coverage and anchors</h2>
+      <p class="hint">Finds how many anchors give every walkable cell at least 3 anchors in range with clear line of sight. A geometric simulation, not a radio guarantee.</p>
+      <label for="range">Assumed maximum range (metres)</label>
+      <input id="range" type="number" min="0" step="any" inputmode="decimal" aria-describedby="range-hint">
+      <p id="range-hint" class="hint">Required. Take it from your hardware datasheet or a site survey; the planner has no default.</p>
+      <label for="res">Grid resolution (metres)</label>
+      <input id="res" type="number" min="0.05" step="any" value="1">
+      <label for="spacing">Candidate anchor spacing (metres)</label>
+      <input id="spacing" type="number" min="0.25" step="any" value="2">
+      <label for="mount">Where anchors can go</label>
+      <select id="mount"><option value="floor_area">Anywhere on the floor</option><option value="wall_mounted">Beside walls</option></select>
+      <label class="inline"><input id="norestricted" type="checkbox"> Keep anchors out of restricted zones</label>
+      <label for="budget">Search budget (evaluations)</label>
+      <input id="budget" type="number" min="100" step="100" value="20000">
+      <label for="maxa">Maximum anchors to consider</label>
+      <input id="maxa" type="number" min="3" step="1" value="40">
+      <label for="seed">Random seed</label>
+      <input id="seed" type="number" min="0" step="1" value="1">
+      <div class="row">
+        <button id="run" type="button">Find minimum anchors</button>
+        <button id="stop" type="button" disabled>Stop</button>
+      </div>
+      <p id="run-status" class="hint" role="status" aria-live="polite"></p>
+      <label class="inline"><input id="show-cov" type="checkbox" checked> Show coverage on the plan</label>
+      <p class="hint">On the plan: red hatching = fewer than the required anchors; light teal = covered; diamonds = anchors.</p>
+      <div id="cov-result"></div>
+      <div class="row">
+        <button id="export-report" type="button" disabled>Export report.json</button>
+        <button id="export-anchors" type="button" disabled>Export anchors.csv</button>
+        <button id="export-venue-anchors" type="button" disabled>Export venue with anchors</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="crowd-h">
+      <h2 id="crowd-h">Crowd-aware planning</h2>
+      <p class="hint">Compares this plan with and without its crowd zones, using the range, grid, candidate and seed settings above. The search budget applies to each search (three are run). Crowds shorten usable range and raise the anchors needed; the coefficients below are planning assumptions, not measurements.</p>
+      <label for="c-fallback">Density for crowd zones that have none (people per m2)</label>
+      <input id="c-fallback" type="number" min="0" max="4" step="any" inputmode="decimal" aria-describedby="c-fallback-hint">
+      <p id="c-fallback-hint" class="hint">Leave empty if every crowd zone already has a density. There is no default: you choose it.</p>
+      <details>
+        <summary>Crowd model coefficients</summary>
+        <label for="c-derate">Range lost per person per m2 (fraction)</label>
+        <input id="c-derate" type="number" min="0" step="any" value="0.1">
+        <label for="c-minf">Smallest range factor</label>
+        <input id="c-minf" type="number" min="0.05" max="1" step="any" value="0.5">
+        <label for="c-perx">People per m2 for each extra anchor</label>
+        <input id="c-perx" type="number" min="0.1" step="any" value="2">
+        <label for="c-maxx">Most extra anchors per cell</label>
+        <input id="c-maxx" type="number" min="0" max="5" step="1" value="2">
+      </details>
+      <div class="row">
+        <button id="c-run" type="button">Compare with and without crowd zones</button>
+        <button id="c-stop" type="button" disabled>Stop</button>
+      </div>
+      <p id="c-status" class="hint" role="status" aria-live="polite"></p>
+      <label for="c-view">Show on the plan</label>
+      <select id="c-view" disabled>
+        <option value="coverage">Result of the coverage search above</option>
+        <option value="aware">Crowd-aware layout, judged with crowds</option>
+        <option value="unaware_crowd">Layout ignoring crowds, judged with crowds</option>
+        <option value="unaware_plain">Layout ignoring crowds, judged without crowds</option>
+      </select>
+      <div id="c-result"></div>
+      <div class="row">
+        <button id="c-export-report" type="button" disabled>Export crowd report.json</button>
+        <button id="c-export-regions" type="button" disabled>Export regions.csv</button>
+        <button id="c-export-anchors" type="button" disabled>Export anchors.csv</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="opt2-h">
+      <h2 id="opt2-h">Anchor placement optimizer</h2>
+      <p class="hint">Ranks candidate layouts for this plan by simulated positioning error (median and P90), and compares them with a naive grid of the same size. It uses the range, grid, spacing, mounting, seed and budget set above, and the fallback crowd density from the crowd section. The errors come from the stand-in simulator and the mock predictor, so they are not Traceline results.</p>
+      <div class="row">
+        <button id="o-run" type="button" disabled>Rank anchor layouts</button>
+      </div>
+      <p id="o-status" class="hint" role="status" aria-live="polite"></p>
+      <div id="o-result"></div>
+      <div class="row">
+        <button id="o-export-report" type="button" disabled>Export optimizer report.json</button>
+        <button id="o-export-ranking" type="button" disabled>Export ranking.csv</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="exp-h">
+      <h2 id="exp-h">Export</h2>
+      <p class="hint">Files are saved to your computer. The image itself is not copied; keep the original beside plan.json.</p>
+      <div class="row">
+        <button id="export-plan" type="button">Export plan.json</button>
+        <button id="export-venue" type="button">Export venue.json</button>
+      </div>
+      <label class="file">Load a saved plan.json onto this image <input id="load-plan" type="file" accept="application/json,.json"></label>
+    </section>
+  </aside>
+</main>
+<script type="module" src="src/ui/app.js"></script>
+</body>
+</html>

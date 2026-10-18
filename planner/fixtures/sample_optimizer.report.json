@@ -1,0 +1,3354 @@
+{
+  "schema_version": "1.0",
+  "report_kind": "anchor_placement_optimizer",
+  "created_at": "2026-10-18T00:00:00.000Z",
+  "status": "ok",
+  "label": "Ranking of candidate layouts under the stand-in simulator (not a global optimum)",
+  "objective": {
+    "definition": "objective_m = P90 positioning error (m) + anchor_cost_m x anchors. Ranked low to high; ties by median, then fewer anchors.",
+    "anchor_cost_m": 0,
+    "note": "Default cost 0: layouts are ranked by P90 error alone, so the Pareto front shows what extra anchors buy."
+  },
+  "config": {
+    "max_range_m": 15,
+    "grid_resolution_m": 1,
+    "candidate_spacing_m": 2,
+    "mounting": {
+      "mode": "floor_area",
+      "exclude_zone_types": []
+    },
+    "min_wall_clearance_m": 0.2,
+    "crowd_aware": true,
+    "crowd_model": {
+      "range_derate_per_density": 0.1,
+      "min_range_factor": 0.5,
+      "density_per_extra_anchor": 2,
+      "max_extra_anchors": 2
+    },
+    "fallback_density": 2,
+    "zones": [
+      {
+        "zone_id": "zone_001",
+        "density_people_m2": 2,
+        "density_source": "fallback"
+      }
+    ],
+    "seed": 1,
+    "search_budget": 20000,
+    "max_anchors": 40,
+    "search_seeds": 3,
+    "extension_levels": 2,
+    "anchor_cost_m": 0,
+    "evaluation": {
+      "trajectories": 3,
+      "steps": 360,
+      "speed_mps": 1,
+      "walk_radius_m": 15,
+      "dt_s": 0.5,
+      "seed": 1
+    },
+    "signal": {
+      "range_sigma_a_m": 0.15,
+      "range_sigma_b": 0.02,
+      "rssi_ref_dbm": -40,
+      "rssi_sigma_dbm": 2.5,
+      "nlos_bias_lo_m": 0.5,
+      "nlos_bias_hi_m": 3,
+      "packet_loss": 0.05
+    },
+    "crowd_effects": {
+      "sigma_per_density": 0.1,
+      "loss_per_density": 0.02,
+      "max_loss": 0.5,
+      "nlos_per_density": 0.05
+    },
+    "slot_policy": "nearest_valid_by_range_v1",
+    "predictor": "mock-trilateration"
+  },
+  "crowd_model_description": [
+    "Usable range along a path = assumed range x max(0.5, 1 - 0.1 x mean density on the path), where density is in people per m2.",
+    "Usable anchors needed at a cell = base requirement + min(2, ceil(density at the cell / 2)), and no extra where density is 0.",
+    "Where crowd zones overlap, the higher density applies.",
+    "These coefficients are planning assumptions chosen by the planner author. They are not measured and not yet aligned with the simulator's crowd formula."
+  ],
+  "assumptions": [
+    "A walkable grid cell counts as covered when at least 3 anchors are within 15 m of its centre with no traced wall or obstacle in between.",
+    "Grid resolution is 1 m; each cell is judged at its centre only, so small gaps inside a cell can be missed.",
+    "Range is an assumed hard limit set by the user, not a measured value. Real range varies with noise, obstructions and crowds.",
+    "Every traced wall blocks completely. Walls that were not traced do not exist in this model.",
+    "Anchors may only be placed at the 350 candidate positions tested (on a regular floor lattice, spacing 2 m, at least 0.2 m from any wall).",
+    "A 'proven' minimum holds only for that candidate set, grid and range; other positions could need fewer anchors.",
+    "Positioning error is simulated with a stand-in simulator and the mock predictor. It is not a measurement and not a Traceline result.",
+    "Anchor positions are chosen from a finite candidate set, so the ranking is the best of the layouts tested."
+  ],
+  "evaluation_set": {
+    "seed": 1,
+    "trajectories": 3,
+    "steps_per_trajectory": 360,
+    "dt_s": 0.5,
+    "speed_mps": 1,
+    "walk_radius_m": 15,
+    "total_steps": 1080,
+    "note": "Walks are seeded random walks through the walkable area. Development set only: never the hidden set."
+  },
+  "simulator": {
+    "name": "stand-in (planner/src/adapters/simulator_adapter.js)",
+    "is_stand_in": true,
+    "signal": {
+      "range_sigma_a_m": 0.15,
+      "range_sigma_b": 0.02,
+      "rssi_ref_dbm": -40,
+      "rssi_sigma_dbm": 2.5,
+      "nlos_bias_lo_m": 0.5,
+      "nlos_bias_hi_m": 3,
+      "packet_loss": 0.05
+    },
+    "crowd_effects": {
+      "sigma_per_density": 0.1,
+      "loss_per_density": 0.02,
+      "max_loss": 0.5,
+      "nlos_per_density": 0.05
+    },
+    "crowd_zones_used": 1
+  },
+  "predictor": {
+    "name": "mock-trilateration",
+    "is_mock": true
+  },
+  "slot_policy": {
+    "id": "nearest_valid_by_range_v1",
+    "text": "Up to 8 anchor slots per step. With more anchors than slots, the 8 anchors with the smallest measured valid range are used (ties by anchor id), and unused slots are padded with anchors that have no reading. Measured ranges only; truth is never used."
+  },
+  "judged_by": "crowd_aware",
+  "searches": [
+    {
+      "source": "coverage_search",
+      "seed": 1,
+      "status": "met",
+      "reason": null,
+      "k": 19,
+      "label": "Best found within search budget (not proven minimal)",
+      "lower_bound": 8,
+      "proven": false,
+      "evaluations_used": 18307
+    },
+    {
+      "source": "coverage_search",
+      "seed": 2,
+      "status": "met",
+      "reason": null,
+      "k": 20,
+      "label": "Best found within search budget (not proven minimal)",
+      "lower_bound": 8,
+      "proven": false,
+      "evaluations_used": 19075
+    },
+    {
+      "source": "coverage_search",
+      "seed": 3,
+      "status": "met",
+      "reason": null,
+      "k": 19,
+      "label": "Best found within search budget (not proven minimal)",
+      "lower_bound": 8,
+      "proven": false,
+      "evaluations_used": 18278
+    },
+    {
+      "source": "no_crowd_search",
+      "seed": 1,
+      "status": "met",
+      "reason": null,
+      "k": 18,
+      "label": "Best found within search budget (not proven minimal)",
+      "lower_bound": 8,
+      "proven": false,
+      "evaluations_used": 17767
+    }
+  ],
+  "layouts": [
+    {
+      "layout_id": "L01",
+      "source": "coverage_search",
+      "search_seed": 1,
+      "extension_level": null,
+      "base_layout_id": null,
+      "k": 19,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 1,
+          "candidate_index": 15
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 13,
+          "candidate_index": 36
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 19,
+          "candidate_index": 39
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 21,
+          "candidate_index": 55
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 9,
+          "y_m": 23,
+          "candidate_index": 71
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 1,
+          "candidate_index": 90
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 7,
+          "candidate_index": 93
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 21,
+          "y_m": 3,
+          "candidate_index": 141
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 23,
+          "candidate_index": 150
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 23,
+          "y_m": 7,
+          "candidate_index": 157
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 25,
+          "y_m": 5,
+          "candidate_index": 170
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 25,
+          "y_m": 27,
+          "candidate_index": 180
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 31,
+          "y_m": 23,
+          "candidate_index": 221
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 37,
+          "y_m": 5,
+          "candidate_index": 247
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 37,
+          "y_m": 23,
+          "candidate_index": 256
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 43,
+          "y_m": 7,
+          "candidate_index": 293
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 43,
+          "y_m": 17,
+          "candidate_index": 298
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 45,
+          "y_m": 29,
+          "candidate_index": 319
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 47,
+          "y_m": 7,
+          "candidate_index": 323
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.5682,
+        "mean_m": 0.7138,
+        "rmse_m": 0.9058,
+        "p90_m": 1.439,
+        "p95_m": 1.7026,
+        "out_of_bounds_fraction": 0.0028,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9445,
+        "nlos_fraction_of_valid_readings": 0.564,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 0.9245,
+          "mean_m": 1.0239,
+          "rmse_m": 1.1013,
+          "p90_m": 1.6245,
+          "p95_m": 1.7741
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.5183,
+          "mean_m": 0.6856,
+          "rmse_m": 0.8859,
+          "p90_m": 1.4052,
+          "p95_m": 1.677
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.439,
+      "rank": 3,
+      "pareto_optimal": true
+    },
+    {
+      "layout_id": "L02",
+      "source": "coverage_search",
+      "search_seed": 2,
+      "extension_level": null,
+      "base_layout_id": null,
+      "k": 20,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 5,
+          "candidate_index": 17
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 3,
+          "y_m": 9,
+          "candidate_index": 19
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 17,
+          "candidate_index": 38
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 11,
+          "candidate_index": 50
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 7,
+          "y_m": 19,
+          "candidate_index": 54
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 9,
+          "y_m": 3,
+          "candidate_index": 61
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 11,
+          "y_m": 29,
+          "candidate_index": 89
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 17,
+          "y_m": 1,
+          "candidate_index": 110
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 19,
+          "y_m": 13,
+          "candidate_index": 131
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 23,
+          "y_m": 21,
+          "candidate_index": 163
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 27,
+          "y_m": 3,
+          "candidate_index": 183
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 27,
+          "y_m": 19,
+          "candidate_index": 190
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 31,
+          "y_m": 27,
+          "candidate_index": 223
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 35,
+          "y_m": 1,
+          "candidate_index": 240
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 35,
+          "y_m": 7,
+          "candidate_index": 243
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 39,
+          "y_m": 25,
+          "candidate_index": 272
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 39,
+          "y_m": 27,
+          "candidate_index": 273
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 43,
+          "y_m": 21,
+          "candidate_index": 300
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 49,
+          "y_m": 1,
+          "candidate_index": 335
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 49,
+          "y_m": 9,
+          "candidate_index": 339
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 12.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.7138,
+        "mean_m": 0.7839,
+        "rmse_m": 0.9411,
+        "p90_m": 1.5289,
+        "p95_m": 1.7519,
+        "out_of_bounds_fraction": 0.0028,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9476,
+        "nlos_fraction_of_valid_readings": 0.5753,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.2039,
+          "mean_m": 1.2704,
+          "rmse_m": 1.4023,
+          "p90_m": 2.004,
+          "p95_m": 2.264
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.6807,
+          "mean_m": 0.7397,
+          "rmse_m": 0.8873,
+          "p90_m": 1.4337,
+          "p95_m": 1.6832
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.5289,
+      "rank": 8,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L03",
+      "source": "coverage_search",
+      "search_seed": 3,
+      "extension_level": null,
+      "base_layout_id": null,
+      "k": 19,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 1,
+          "y_m": 17,
+          "candidate_index": 8
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 3,
+          "y_m": 9,
+          "candidate_index": 19
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 7,
+          "y_m": 1,
+          "candidate_index": 45
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 9,
+          "candidate_index": 49
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 11,
+          "y_m": 25,
+          "candidate_index": 87
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 1,
+          "candidate_index": 90
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 29,
+          "candidate_index": 104
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 17,
+          "y_m": 5,
+          "candidate_index": 112
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 17,
+          "y_m": 11,
+          "candidate_index": 115
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 23,
+          "y_m": 25,
+          "candidate_index": 165
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 25,
+          "y_m": 7,
+          "candidate_index": 171
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 33,
+          "y_m": 19,
+          "candidate_index": 234
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 33,
+          "y_m": 25,
+          "candidate_index": 237
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 37,
+          "y_m": 23,
+          "candidate_index": 256
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 39,
+          "y_m": 5,
+          "candidate_index": 262
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 39,
+          "y_m": 9,
+          "candidate_index": 264
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 39,
+          "y_m": 19,
+          "candidate_index": 269
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 47,
+          "y_m": 1,
+          "candidate_index": 320
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 49,
+          "y_m": 27,
+          "candidate_index": 348
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 12.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.776,
+        "mean_m": 0.8262,
+        "rmse_m": 0.9556,
+        "p90_m": 1.4586,
+        "p95_m": 1.6836,
+        "out_of_bounds_fraction": 0.0019,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9482,
+        "nlos_fraction_of_valid_readings": 0.5649,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.2709,
+          "mean_m": 1.2776,
+          "rmse_m": 1.3533,
+          "p90_m": 1.9015,
+          "p95_m": 2.0858
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.7315,
+          "mean_m": 0.7852,
+          "rmse_m": 0.9109,
+          "p90_m": 1.4086,
+          "p95_m": 1.5944
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.4586,
+      "rank": 4,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L04",
+      "source": "no_crowd_search",
+      "search_seed": 1,
+      "extension_level": null,
+      "base_layout_id": null,
+      "k": 18,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 1,
+          "candidate_index": 15
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 3,
+          "candidate_index": 31
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 29,
+          "candidate_index": 44
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 13,
+          "candidate_index": 51
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 7,
+          "y_m": 19,
+          "candidate_index": 54
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 11,
+          "y_m": 25,
+          "candidate_index": 87
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 17,
+          "y_m": 3,
+          "candidate_index": 111
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 19,
+          "y_m": 11,
+          "candidate_index": 130
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 23,
+          "candidate_index": 150
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 25,
+          "y_m": 25,
+          "candidate_index": 179
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 27,
+          "y_m": 9,
+          "candidate_index": 186
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 33,
+          "y_m": 19,
+          "candidate_index": 234
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 35,
+          "y_m": 3,
+          "candidate_index": 241
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 41,
+          "y_m": 3,
+          "candidate_index": 276
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 41,
+          "y_m": 25,
+          "candidate_index": 287
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 43,
+          "y_m": 17,
+          "candidate_index": 298
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 47,
+          "y_m": 27,
+          "candidate_index": 333
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 49,
+          "y_m": 5,
+          "candidate_index": 337
+        }
+      ],
+      "coverage": {
+        "criterion_met": false,
+        "uncovered_fraction": 0.027,
+        "uncovered_area_m2": 40,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 2,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.7416,
+        "mean_m": 0.8515,
+        "rmse_m": 1.0193,
+        "p90_m": 1.6218,
+        "p95_m": 1.8743,
+        "out_of_bounds_fraction": 0.0019,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9462,
+        "nlos_fraction_of_valid_readings": 0.5751,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.3117,
+          "mean_m": 1.4233,
+          "rmse_m": 1.547,
+          "p90_m": 2.2057,
+          "p95_m": 2.539
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.6915,
+          "mean_m": 0.7995,
+          "rmse_m": 0.9571,
+          "p90_m": 1.5189,
+          "p95_m": 1.7692
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": null,
+      "rank": null,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L05",
+      "source": "redundancy_extension",
+      "search_seed": null,
+      "extension_level": 1,
+      "base_layout_id": "L01",
+      "k": 20,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 1,
+          "candidate_index": 15
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 13,
+          "candidate_index": 36
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 19,
+          "candidate_index": 39
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 21,
+          "candidate_index": 55
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 9,
+          "y_m": 23,
+          "candidate_index": 71
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 1,
+          "candidate_index": 90
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 7,
+          "candidate_index": 93
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 19,
+          "y_m": 17,
+          "candidate_index": 133
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 3,
+          "candidate_index": 141
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 21,
+          "y_m": 23,
+          "candidate_index": 150
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 23,
+          "y_m": 7,
+          "candidate_index": 157
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 25,
+          "y_m": 5,
+          "candidate_index": 170
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 25,
+          "y_m": 27,
+          "candidate_index": 180
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 31,
+          "y_m": 23,
+          "candidate_index": 221
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 37,
+          "y_m": 5,
+          "candidate_index": 247
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 37,
+          "y_m": 23,
+          "candidate_index": 256
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 43,
+          "y_m": 7,
+          "candidate_index": 293
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 43,
+          "y_m": 17,
+          "candidate_index": 298
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 45,
+          "y_m": 29,
+          "candidate_index": 319
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 47,
+          "y_m": 7,
+          "candidate_index": 323
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.6046,
+        "mean_m": 0.7077,
+        "rmse_m": 0.8578,
+        "p90_m": 1.3736,
+        "p95_m": 1.5989,
+        "out_of_bounds_fraction": 0.0009,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.945,
+        "nlos_fraction_of_valid_readings": 0.5663,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 0.9562,
+          "mean_m": 1.0082,
+          "rmse_m": 1.0783,
+          "p90_m": 1.6015,
+          "p95_m": 1.7594
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.5644,
+          "mean_m": 0.6803,
+          "rmse_m": 0.8349,
+          "p90_m": 1.3525,
+          "p95_m": 1.5712
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.3736,
+      "rank": 2,
+      "pareto_optimal": true
+    },
+    {
+      "layout_id": "L06",
+      "source": "redundancy_extension",
+      "search_seed": null,
+      "extension_level": 2,
+      "base_layout_id": "L01",
+      "k": 21,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 1,
+          "candidate_index": 15
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 13,
+          "candidate_index": 36
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 19,
+          "candidate_index": 39
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 21,
+          "candidate_index": 55
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 9,
+          "y_m": 23,
+          "candidate_index": 71
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 1,
+          "candidate_index": 90
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 7,
+          "candidate_index": 93
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 19,
+          "y_m": 17,
+          "candidate_index": 133
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 3,
+          "candidate_index": 141
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 21,
+          "y_m": 23,
+          "candidate_index": 150
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 23,
+          "y_m": 7,
+          "candidate_index": 157
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 25,
+          "y_m": 5,
+          "candidate_index": 170
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 25,
+          "y_m": 27,
+          "candidate_index": 180
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 31,
+          "y_m": 23,
+          "candidate_index": 221
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 37,
+          "y_m": 5,
+          "candidate_index": 247
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 37,
+          "y_m": 23,
+          "candidate_index": 256
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 43,
+          "y_m": 7,
+          "candidate_index": 293
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 43,
+          "y_m": 15,
+          "candidate_index": 297
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 43,
+          "y_m": 17,
+          "candidate_index": 298
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 45,
+          "y_m": 29,
+          "candidate_index": 319
+        },
+        {
+          "anchor_id": 20,
+          "x_m": 47,
+          "y_m": 7,
+          "candidate_index": 323
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.5961,
+        "mean_m": 0.7049,
+        "rmse_m": 0.8581,
+        "p90_m": 1.3578,
+        "p95_m": 1.625,
+        "out_of_bounds_fraction": 0.0009,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9453,
+        "nlos_fraction_of_valid_readings": 0.5829,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 0.9562,
+          "mean_m": 1.0082,
+          "rmse_m": 1.0783,
+          "p90_m": 1.6015,
+          "p95_m": 1.7594
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.5523,
+          "mean_m": 0.6773,
+          "rmse_m": 0.8352,
+          "p90_m": 1.3513,
+          "p95_m": 1.5896
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.3578,
+      "rank": 1,
+      "pareto_optimal": true
+    },
+    {
+      "layout_id": "L07",
+      "source": "redundancy_extension",
+      "search_seed": null,
+      "extension_level": 1,
+      "base_layout_id": "L02",
+      "k": 21,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 5,
+          "candidate_index": 17
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 3,
+          "y_m": 9,
+          "candidate_index": 19
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 17,
+          "candidate_index": 38
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 11,
+          "candidate_index": 50
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 7,
+          "y_m": 19,
+          "candidate_index": 54
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 9,
+          "y_m": 3,
+          "candidate_index": 61
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 11,
+          "y_m": 29,
+          "candidate_index": 89
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 17,
+          "y_m": 1,
+          "candidate_index": 110
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 19,
+          "y_m": 13,
+          "candidate_index": 131
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 19,
+          "y_m": 21,
+          "candidate_index": 135
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 23,
+          "y_m": 21,
+          "candidate_index": 163
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 27,
+          "y_m": 3,
+          "candidate_index": 183
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 27,
+          "y_m": 19,
+          "candidate_index": 190
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 31,
+          "y_m": 27,
+          "candidate_index": 223
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 35,
+          "y_m": 1,
+          "candidate_index": 240
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 35,
+          "y_m": 7,
+          "candidate_index": 243
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 39,
+          "y_m": 25,
+          "candidate_index": 272
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 39,
+          "y_m": 27,
+          "candidate_index": 273
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 43,
+          "y_m": 21,
+          "candidate_index": 300
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 49,
+          "y_m": 1,
+          "candidate_index": 335
+        },
+        {
+          "anchor_id": 20,
+          "x_m": 49,
+          "y_m": 9,
+          "candidate_index": 339
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 12.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.6087,
+        "mean_m": 0.7301,
+        "rmse_m": 0.9036,
+        "p90_m": 1.4701,
+        "p95_m": 1.7123,
+        "out_of_bounds_fraction": 0.0019,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9478,
+        "nlos_fraction_of_valid_readings": 0.5674,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.2259,
+          "mean_m": 1.2741,
+          "rmse_m": 1.4032,
+          "p90_m": 2.0096,
+          "p95_m": 2.254
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.5643,
+          "mean_m": 0.6807,
+          "rmse_m": 0.8436,
+          "p90_m": 1.3628,
+          "p95_m": 1.5968
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.4701,
+      "rank": 5,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L08",
+      "source": "redundancy_extension",
+      "search_seed": null,
+      "extension_level": 2,
+      "base_layout_id": "L02",
+      "k": 22,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 5,
+          "candidate_index": 17
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 3,
+          "y_m": 9,
+          "candidate_index": 19
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 17,
+          "candidate_index": 38
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 11,
+          "candidate_index": 50
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 7,
+          "y_m": 19,
+          "candidate_index": 54
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 9,
+          "y_m": 3,
+          "candidate_index": 61
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 11,
+          "y_m": 29,
+          "candidate_index": 89
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 17,
+          "y_m": 1,
+          "candidate_index": 110
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 19,
+          "y_m": 13,
+          "candidate_index": 131
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 19,
+          "y_m": 21,
+          "candidate_index": 135
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 23,
+          "y_m": 21,
+          "candidate_index": 163
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 27,
+          "y_m": 3,
+          "candidate_index": 183
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 27,
+          "y_m": 19,
+          "candidate_index": 190
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 31,
+          "y_m": 27,
+          "candidate_index": 223
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 35,
+          "y_m": 1,
+          "candidate_index": 240
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 35,
+          "y_m": 7,
+          "candidate_index": 243
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 39,
+          "y_m": 25,
+          "candidate_index": 272
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 39,
+          "y_m": 27,
+          "candidate_index": 273
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 41,
+          "y_m": 17,
+          "candidate_index": 283
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 43,
+          "y_m": 21,
+          "candidate_index": 300
+        },
+        {
+          "anchor_id": 20,
+          "x_m": 49,
+          "y_m": 1,
+          "candidate_index": 335
+        },
+        {
+          "anchor_id": 21,
+          "x_m": 49,
+          "y_m": 9,
+          "candidate_index": 339
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 12.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.596,
+        "mean_m": 0.7366,
+        "rmse_m": 0.9167,
+        "p90_m": 1.511,
+        "p95_m": 1.82,
+        "out_of_bounds_fraction": 0.0019,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9481,
+        "nlos_fraction_of_valid_readings": 0.584,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.2259,
+          "mean_m": 1.2741,
+          "rmse_m": 1.4032,
+          "p90_m": 2.0096,
+          "p95_m": 2.254
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.5596,
+          "mean_m": 0.6877,
+          "rmse_m": 0.8589,
+          "p90_m": 1.3965,
+          "p95_m": 1.6464
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.511,
+      "rank": 6,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L09",
+      "source": "redundancy_extension",
+      "search_seed": null,
+      "extension_level": 1,
+      "base_layout_id": "L03",
+      "k": 20,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 1,
+          "y_m": 17,
+          "candidate_index": 8
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 3,
+          "y_m": 9,
+          "candidate_index": 19
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 7,
+          "y_m": 1,
+          "candidate_index": 45
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 9,
+          "candidate_index": 49
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 11,
+          "y_m": 25,
+          "candidate_index": 87
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 1,
+          "candidate_index": 90
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 29,
+          "candidate_index": 104
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 17,
+          "y_m": 5,
+          "candidate_index": 112
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 17,
+          "y_m": 11,
+          "candidate_index": 115
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 19,
+          "y_m": 19,
+          "candidate_index": 134
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 23,
+          "y_m": 25,
+          "candidate_index": 165
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 25,
+          "y_m": 7,
+          "candidate_index": 171
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 33,
+          "y_m": 19,
+          "candidate_index": 234
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 33,
+          "y_m": 25,
+          "candidate_index": 237
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 37,
+          "y_m": 23,
+          "candidate_index": 256
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 39,
+          "y_m": 5,
+          "candidate_index": 262
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 39,
+          "y_m": 9,
+          "candidate_index": 264
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 39,
+          "y_m": 19,
+          "candidate_index": 269
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 47,
+          "y_m": 1,
+          "candidate_index": 320
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 49,
+          "y_m": 27,
+          "candidate_index": 348
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 12.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.7889,
+        "mean_m": 0.8462,
+        "rmse_m": 0.9824,
+        "p90_m": 1.5711,
+        "p95_m": 1.7458,
+        "out_of_bounds_fraction": 0.0009,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9481,
+        "nlos_fraction_of_valid_readings": 0.5626,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.3561,
+          "mean_m": 1.3118,
+          "rmse_m": 1.3809,
+          "p90_m": 1.8818,
+          "p95_m": 2.0609
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.733,
+          "mean_m": 0.8039,
+          "rmse_m": 0.9379,
+          "p90_m": 1.4734,
+          "p95_m": 1.6874
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.5711,
+      "rank": 10,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L10",
+      "source": "redundancy_extension",
+      "search_seed": null,
+      "extension_level": 2,
+      "base_layout_id": "L03",
+      "k": 21,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 1,
+          "y_m": 17,
+          "candidate_index": 8
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 3,
+          "y_m": 9,
+          "candidate_index": 19
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 7,
+          "y_m": 1,
+          "candidate_index": 45
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 9,
+          "candidate_index": 49
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 11,
+          "y_m": 25,
+          "candidate_index": 87
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 1,
+          "candidate_index": 90
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 29,
+          "candidate_index": 104
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 17,
+          "y_m": 5,
+          "candidate_index": 112
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 17,
+          "y_m": 11,
+          "candidate_index": 115
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 19,
+          "y_m": 19,
+          "candidate_index": 134
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 23,
+          "y_m": 25,
+          "candidate_index": 165
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 25,
+          "y_m": 7,
+          "candidate_index": 171
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 33,
+          "y_m": 19,
+          "candidate_index": 234
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 33,
+          "y_m": 25,
+          "candidate_index": 237
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 37,
+          "y_m": 23,
+          "candidate_index": 256
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 39,
+          "y_m": 5,
+          "candidate_index": 262
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 39,
+          "y_m": 9,
+          "candidate_index": 264
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 39,
+          "y_m": 19,
+          "candidate_index": 269
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 43,
+          "y_m": 15,
+          "candidate_index": 297
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 47,
+          "y_m": 1,
+          "candidate_index": 320
+        },
+        {
+          "anchor_id": 20,
+          "x_m": 49,
+          "y_m": 27,
+          "candidate_index": 348
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 12.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.777,
+        "mean_m": 0.8422,
+        "rmse_m": 0.9794,
+        "p90_m": 1.5711,
+        "p95_m": 1.727,
+        "out_of_bounds_fraction": 0.0009,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9482,
+        "nlos_fraction_of_valid_readings": 0.5793,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.3561,
+          "mean_m": 1.3118,
+          "rmse_m": 1.3809,
+          "p90_m": 1.8818,
+          "p95_m": 2.0609
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.7278,
+          "mean_m": 0.7996,
+          "rmse_m": 0.9344,
+          "p90_m": 1.4755,
+          "p95_m": 1.6849
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.5711,
+      "rank": 9,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L11",
+      "source": "redundancy_extension",
+      "search_seed": null,
+      "extension_level": 1,
+      "base_layout_id": "L04",
+      "k": 19,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 1,
+          "candidate_index": 15
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 3,
+          "candidate_index": 31
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 29,
+          "candidate_index": 44
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 13,
+          "candidate_index": 51
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 7,
+          "y_m": 19,
+          "candidate_index": 54
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 11,
+          "y_m": 25,
+          "candidate_index": 87
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 17,
+          "y_m": 3,
+          "candidate_index": 111
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 19,
+          "y_m": 11,
+          "candidate_index": 130
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 23,
+          "candidate_index": 150
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 25,
+          "y_m": 25,
+          "candidate_index": 179
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 27,
+          "y_m": 9,
+          "candidate_index": 186
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 33,
+          "y_m": 19,
+          "candidate_index": 234
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 35,
+          "y_m": 3,
+          "candidate_index": 241
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 41,
+          "y_m": 3,
+          "candidate_index": 276
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 41,
+          "y_m": 25,
+          "candidate_index": 287
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 43,
+          "y_m": 15,
+          "candidate_index": 297
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 43,
+          "y_m": 17,
+          "candidate_index": 298
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 47,
+          "y_m": 27,
+          "candidate_index": 333
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 49,
+          "y_m": 5,
+          "candidate_index": 337
+        }
+      ],
+      "coverage": {
+        "criterion_met": false,
+        "uncovered_fraction": 0.027,
+        "uncovered_area_m2": 40,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 2,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.7486,
+        "mean_m": 0.8457,
+        "rmse_m": 1.0095,
+        "p90_m": 1.601,
+        "p95_m": 1.8325,
+        "out_of_bounds_fraction": 0.0009,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9465,
+        "nlos_fraction_of_valid_readings": 0.593,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.3117,
+          "mean_m": 1.4233,
+          "rmse_m": 1.547,
+          "p90_m": 2.2057,
+          "p95_m": 2.539
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.6915,
+          "mean_m": 0.7931,
+          "rmse_m": 0.9456,
+          "p90_m": 1.5008,
+          "p95_m": 1.7512
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": null,
+      "rank": null,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L12",
+      "source": "redundancy_extension",
+      "search_seed": null,
+      "extension_level": 2,
+      "base_layout_id": "L04",
+      "k": 20,
+      "pooled": true,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 1,
+          "candidate_index": 15
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 3,
+          "candidate_index": 31
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 7,
+          "candidate_index": 33
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 5,
+          "y_m": 29,
+          "candidate_index": 44
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 7,
+          "y_m": 13,
+          "candidate_index": 51
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 7,
+          "y_m": 19,
+          "candidate_index": 54
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 11,
+          "y_m": 25,
+          "candidate_index": 87
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 17,
+          "y_m": 3,
+          "candidate_index": 111
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 19,
+          "y_m": 11,
+          "candidate_index": 130
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 21,
+          "y_m": 23,
+          "candidate_index": 150
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 25,
+          "y_m": 25,
+          "candidate_index": 179
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 27,
+          "y_m": 9,
+          "candidate_index": 186
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 33,
+          "y_m": 19,
+          "candidate_index": 234
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 35,
+          "y_m": 3,
+          "candidate_index": 241
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 41,
+          "y_m": 3,
+          "candidate_index": 276
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 41,
+          "y_m": 25,
+          "candidate_index": 287
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 43,
+          "y_m": 15,
+          "candidate_index": 297
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 43,
+          "y_m": 17,
+          "candidate_index": 298
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 47,
+          "y_m": 27,
+          "candidate_index": 333
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 49,
+          "y_m": 5,
+          "candidate_index": 337
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.6902,
+        "mean_m": 0.7956,
+        "rmse_m": 0.9662,
+        "p90_m": 1.5156,
+        "p95_m": 1.7987,
+        "out_of_bounds_fraction": 0.0009,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9466,
+        "nlos_fraction_of_valid_readings": 0.5797,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.1711,
+          "mean_m": 1.3099,
+          "rmse_m": 1.4772,
+          "p90_m": 2.2841,
+          "p95_m": 2.7328
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.6464,
+          "mean_m": 0.7488,
+          "rmse_m": 0.9055,
+          "p90_m": 1.4634,
+          "p95_m": 1.7234
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": 1.5156,
+      "rank": 7,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L13",
+      "source": "naive_grid",
+      "search_seed": null,
+      "extension_level": null,
+      "base_layout_id": null,
+      "k": 18,
+      "pooled": false,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 5,
+          "y_m": 5,
+          "candidate_index": 32
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 15,
+          "candidate_index": 37
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 25,
+          "candidate_index": 42
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 13,
+          "y_m": 5,
+          "candidate_index": 92
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 13,
+          "y_m": 15,
+          "candidate_index": 97
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 25,
+          "candidate_index": 102
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 19,
+          "y_m": 15,
+          "candidate_index": 132
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 21,
+          "y_m": 5,
+          "candidate_index": 142
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 25,
+          "candidate_index": 151
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 29,
+          "y_m": 5,
+          "candidate_index": 198
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 29,
+          "y_m": 25,
+          "candidate_index": 207
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 31,
+          "y_m": 15,
+          "candidate_index": 217
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 37,
+          "y_m": 5,
+          "candidate_index": 247
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 37,
+          "y_m": 15,
+          "candidate_index": 252
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 37,
+          "y_m": 25,
+          "candidate_index": 257
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 45,
+          "y_m": 5,
+          "candidate_index": 307
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 45,
+          "y_m": 15,
+          "candidate_index": 312
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 45,
+          "y_m": 25,
+          "candidate_index": 317
+        }
+      ],
+      "coverage": {
+        "criterion_met": false,
+        "uncovered_fraction": 0.0378,
+        "uncovered_area_m2": 56,
+        "worst_case": {
+          "x_m": 5.5,
+          "y_m": 1.5,
+          "usable_anchors": 2,
+          "required": 4
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.673,
+        "mean_m": 0.7481,
+        "rmse_m": 0.878,
+        "p90_m": 1.3615,
+        "p95_m": 1.6157,
+        "out_of_bounds_fraction": 0,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9435,
+        "nlos_fraction_of_valid_readings": 0.5984,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.1263,
+          "mean_m": 1.1825,
+          "rmse_m": 1.2861,
+          "p90_m": 1.8897,
+          "p95_m": 2.1362
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.6361,
+          "mean_m": 0.7086,
+          "rmse_m": 0.8311,
+          "p90_m": 1.2804,
+          "p95_m": 1.5098
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": null,
+      "rank": null,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L14",
+      "source": "naive_grid",
+      "search_seed": null,
+      "extension_level": null,
+      "base_layout_id": null,
+      "k": 19,
+      "pooled": false,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 5,
+          "y_m": 5,
+          "candidate_index": 32
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 11,
+          "candidate_index": 35
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 19,
+          "candidate_index": 39
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 5,
+          "y_m": 25,
+          "candidate_index": 42
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 13,
+          "y_m": 5,
+          "candidate_index": 92
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 11,
+          "candidate_index": 95
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 19,
+          "candidate_index": 99
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 21,
+          "y_m": 5,
+          "candidate_index": 142
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 11,
+          "candidate_index": 145
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 21,
+          "y_m": 25,
+          "candidate_index": 151
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 29,
+          "y_m": 5,
+          "candidate_index": 198
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 29,
+          "y_m": 19,
+          "candidate_index": 204
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 29,
+          "y_m": 25,
+          "candidate_index": 207
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 37,
+          "y_m": 11,
+          "candidate_index": 250
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 37,
+          "y_m": 19,
+          "candidate_index": 254
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 37,
+          "y_m": 25,
+          "candidate_index": 257
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 45,
+          "y_m": 5,
+          "candidate_index": 307
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 45,
+          "y_m": 11,
+          "candidate_index": 310
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 45,
+          "y_m": 19,
+          "candidate_index": 314
+        }
+      ],
+      "coverage": {
+        "criterion_met": false,
+        "uncovered_fraction": 0.0101,
+        "uncovered_area_m2": 15,
+        "worst_case": {
+          "x_m": 48.5,
+          "y_m": 0.5,
+          "usable_anchors": 2,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.5914,
+        "mean_m": 0.6979,
+        "rmse_m": 0.8631,
+        "p90_m": 1.362,
+        "p95_m": 1.6594,
+        "out_of_bounds_fraction": 0.0065,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.946,
+        "nlos_fraction_of_valid_readings": 0.5818,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 0.9815,
+          "mean_m": 0.9832,
+          "rmse_m": 1.0808,
+          "p90_m": 1.5144,
+          "p95_m": 1.6943
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.5453,
+          "mean_m": 0.6719,
+          "rmse_m": 0.8405,
+          "p90_m": 1.3446,
+          "p95_m": 1.6528
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": null,
+      "rank": null,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L15",
+      "source": "naive_grid",
+      "search_seed": null,
+      "extension_level": null,
+      "base_layout_id": null,
+      "k": 20,
+      "pooled": false,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 5,
+          "y_m": 5,
+          "candidate_index": 32
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 11,
+          "candidate_index": 35
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 19,
+          "candidate_index": 39
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 5,
+          "y_m": 25,
+          "candidate_index": 42
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 13,
+          "y_m": 5,
+          "candidate_index": 92
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 11,
+          "candidate_index": 95
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 19,
+          "candidate_index": 99
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 13,
+          "y_m": 25,
+          "candidate_index": 102
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 5,
+          "candidate_index": 142
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 21,
+          "y_m": 11,
+          "candidate_index": 145
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 21,
+          "y_m": 19,
+          "candidate_index": 148
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 21,
+          "y_m": 25,
+          "candidate_index": 151
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 29,
+          "y_m": 5,
+          "candidate_index": 198
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 29,
+          "y_m": 11,
+          "candidate_index": 201
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 29,
+          "y_m": 19,
+          "candidate_index": 204
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 29,
+          "y_m": 25,
+          "candidate_index": 207
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 37,
+          "y_m": 5,
+          "candidate_index": 247
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 37,
+          "y_m": 11,
+          "candidate_index": 250
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 37,
+          "y_m": 19,
+          "candidate_index": 254
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 37,
+          "y_m": 25,
+          "candidate_index": 257
+        }
+      ],
+      "coverage": {
+        "criterion_met": false,
+        "uncovered_fraction": 0.0953,
+        "uncovered_area_m2": 141,
+        "worst_case": {
+          "x_m": 48.5,
+          "y_m": 0.5,
+          "usable_anchors": 1,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.4176,
+        "mean_m": 0.5843,
+        "rmse_m": 0.7448,
+        "p90_m": 1.2855,
+        "p95_m": 1.4815,
+        "out_of_bounds_fraction": 0,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9463,
+        "nlos_fraction_of_valid_readings": 0.532,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 0.8834,
+          "mean_m": 0.94,
+          "rmse_m": 1.0459,
+          "p90_m": 1.5569,
+          "p95_m": 1.6975
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.379,
+          "mean_m": 0.552,
+          "rmse_m": 0.7112,
+          "p90_m": 1.2488,
+          "p95_m": 1.4303
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": null,
+      "rank": null,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L16",
+      "source": "naive_grid",
+      "search_seed": null,
+      "extension_level": null,
+      "base_layout_id": null,
+      "k": 21,
+      "pooled": false,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 5,
+          "y_m": 5,
+          "candidate_index": 32
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 11,
+          "candidate_index": 35
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 19,
+          "candidate_index": 39
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 5,
+          "y_m": 25,
+          "candidate_index": 42
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 13,
+          "y_m": 5,
+          "candidate_index": 92
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 19,
+          "candidate_index": 99
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 25,
+          "candidate_index": 102
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 21,
+          "y_m": 5,
+          "candidate_index": 142
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 11,
+          "candidate_index": 145
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 21,
+          "y_m": 19,
+          "candidate_index": 148
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 21,
+          "y_m": 25,
+          "candidate_index": 151
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 29,
+          "y_m": 5,
+          "candidate_index": 198
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 29,
+          "y_m": 11,
+          "candidate_index": 201
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 29,
+          "y_m": 25,
+          "candidate_index": 207
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 37,
+          "y_m": 5,
+          "candidate_index": 247
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 37,
+          "y_m": 11,
+          "candidate_index": 250
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 37,
+          "y_m": 19,
+          "candidate_index": 254
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 37,
+          "y_m": 25,
+          "candidate_index": 257
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 45,
+          "y_m": 5,
+          "candidate_index": 307
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 45,
+          "y_m": 11,
+          "candidate_index": 310
+        },
+        {
+          "anchor_id": 20,
+          "x_m": 45,
+          "y_m": 19,
+          "candidate_index": 314
+        }
+      ],
+      "coverage": {
+        "criterion_met": false,
+        "uncovered_fraction": 0.0318,
+        "uncovered_area_m2": 47,
+        "worst_case": {
+          "x_m": 12.5,
+          "y_m": 0.5,
+          "usable_anchors": 2,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.519,
+        "mean_m": 0.6634,
+        "rmse_m": 0.834,
+        "p90_m": 1.3696,
+        "p95_m": 1.6131,
+        "out_of_bounds_fraction": 0,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9463,
+        "nlos_fraction_of_valid_readings": 0.5941,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 1.0309,
+          "mean_m": 1.0818,
+          "rmse_m": 1.1788,
+          "p90_m": 1.6408,
+          "p95_m": 1.8588
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.4685,
+          "mean_m": 0.6254,
+          "rmse_m": 0.7953,
+          "p90_m": 1.3203,
+          "p95_m": 1.556
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": null,
+      "rank": null,
+      "pareto_optimal": false
+    },
+    {
+      "layout_id": "L17",
+      "source": "naive_grid",
+      "search_seed": null,
+      "extension_level": null,
+      "base_layout_id": null,
+      "k": 22,
+      "pooled": false,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 5,
+          "candidate_index": 17
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 3,
+          "y_m": 11,
+          "candidate_index": 20
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 3,
+          "y_m": 19,
+          "candidate_index": 24
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 3,
+          "y_m": 25,
+          "candidate_index": 27
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 11,
+          "y_m": 5,
+          "candidate_index": 77
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 11,
+          "y_m": 11,
+          "candidate_index": 80
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 11,
+          "y_m": 19,
+          "candidate_index": 84
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 11,
+          "y_m": 25,
+          "candidate_index": 87
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 17,
+          "y_m": 5,
+          "candidate_index": 112
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 17,
+          "y_m": 19,
+          "candidate_index": 119
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 25,
+          "y_m": 5,
+          "candidate_index": 170
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 25,
+          "y_m": 11,
+          "candidate_index": 173
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 25,
+          "y_m": 19,
+          "candidate_index": 176
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 25,
+          "y_m": 25,
+          "candidate_index": 179
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 31,
+          "y_m": 11,
+          "candidate_index": 215
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 31,
+          "y_m": 25,
+          "candidate_index": 222
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 39,
+          "y_m": 5,
+          "candidate_index": 262
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 39,
+          "y_m": 11,
+          "candidate_index": 265
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 39,
+          "y_m": 19,
+          "candidate_index": 269
+        },
+        {
+          "anchor_id": 19,
+          "x_m": 39,
+          "y_m": 25,
+          "candidate_index": 272
+        },
+        {
+          "anchor_id": 20,
+          "x_m": 45,
+          "y_m": 5,
+          "candidate_index": 307
+        },
+        {
+          "anchor_id": 21,
+          "x_m": 45,
+          "y_m": 19,
+          "candidate_index": 314
+        }
+      ],
+      "coverage": {
+        "criterion_met": true,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480
+      },
+      "simulated": {
+        "steps": 1080,
+        "median_m": 0.5411,
+        "mean_m": 0.6442,
+        "rmse_m": 0.7962,
+        "p90_m": 1.3598,
+        "p95_m": 1.5345,
+        "out_of_bounds_fraction": 0.0019,
+        "too_few_valid_anchors_fraction": 0,
+        "valid_reading_fraction": 0.9485,
+        "nlos_fraction_of_valid_readings": 0.5701,
+        "inside_crowd": {
+          "steps": 90,
+          "median_m": 0.9098,
+          "mean_m": 1.01,
+          "rmse_m": 1.0978,
+          "p90_m": 1.5986,
+          "p95_m": 1.7102
+        },
+        "outside_crowd": {
+          "steps": 990,
+          "median_m": 0.4977,
+          "mean_m": 0.611,
+          "rmse_m": 0.7629,
+          "p90_m": 1.3308,
+          "p95_m": 1.4953
+        },
+        "predictor": "mock-trilateration",
+        "predictor_is_mock": true
+      },
+      "exceeds_model_slots": true,
+      "objective_m": null,
+      "rank": null,
+      "pareto_optimal": false
+    }
+  ],
+  "ranking": [
+    "L06",
+    "L05",
+    "L01",
+    "L03",
+    "L07",
+    "L08",
+    "L12",
+    "L02",
+    "L10",
+    "L09"
+  ],
+  "pareto_front": [
+    "L06",
+    "L05",
+    "L01"
+  ],
+  "best": "L06",
+  "best_within_model_slots": null,
+  "naive_comparison": [
+    {
+      "k": 18,
+      "optimised_layout_id": null,
+      "optimised_p90_m": null,
+      "optimised_median_m": null,
+      "naive_layout_id": "L13",
+      "naive_criterion_met": false,
+      "naive_p90_m": 1.3615,
+      "naive_median_m": 0.673,
+      "naive_minus_optimised_p90_m": null
+    },
+    {
+      "k": 19,
+      "optimised_layout_id": "L01",
+      "optimised_p90_m": 1.439,
+      "optimised_median_m": 0.5682,
+      "naive_layout_id": "L14",
+      "naive_criterion_met": false,
+      "naive_p90_m": 1.362,
+      "naive_median_m": 0.5914,
+      "naive_minus_optimised_p90_m": -0.077
+    },
+    {
+      "k": 20,
+      "optimised_layout_id": "L05",
+      "optimised_p90_m": 1.3736,
+      "optimised_median_m": 0.6046,
+      "naive_layout_id": "L15",
+      "naive_criterion_met": false,
+      "naive_p90_m": 1.2855,
+      "naive_median_m": 0.4176,
+      "naive_minus_optimised_p90_m": -0.0881
+    },
+    {
+      "k": 21,
+      "optimised_layout_id": "L06",
+      "optimised_p90_m": 1.3578,
+      "optimised_median_m": 0.5961,
+      "naive_layout_id": "L16",
+      "naive_criterion_met": false,
+      "naive_p90_m": 1.3696,
+      "naive_median_m": 0.519,
+      "naive_minus_optimised_p90_m": 0.0118
+    },
+    {
+      "k": 22,
+      "optimised_layout_id": "L08",
+      "optimised_p90_m": 1.511,
+      "optimised_median_m": 0.596,
+      "naive_layout_id": "L17",
+      "naive_criterion_met": true,
+      "naive_p90_m": 1.3598,
+      "naive_median_m": 0.5411,
+      "naive_minus_optimised_p90_m": -0.1512
+    }
+  ],
+  "warnings": [
+    "Simulated geometric coverage only. It is not a guarantee of radio performance: walls, crowds, equipment and interference change real signals. Run a site survey before installing anything.",
+    "No layout that meets the criterion fits the 8 model slots. The smallest one found needs 19 anchors.",
+    "The best layout (L06) needs 21 anchors. The model takes at most 8 slots, so the simulation uses the slot policy above and the venue file cannot be exported with it (DECISIONS 39).",
+    "Layouts above 8 anchors are simulated with the slot policy; that is an assumption until the team decides how a larger layout feeds an 8-slot model.",
+    "Positioning errors come from a stand-in simulator and the mock predictor. They are not Traceline results and not measurements.",
+    "Some crowd zones had no density and use the fallback density you entered.",
+    "Only 90 simulated steps fall inside crowd zones, so the inside-crowd error is indicative only. Use longer walks or more trajectories."
+  ],
+  "notes": [
+    "Layouts are compared on the same walks, with the same noise on shared anchors (common random numbers), so a difference comes from geometry and layout.",
+    "Crowd effects are placeholders in the stand-in simulator. They change simulated error inside crowd zones, so that comparison depends on them.",
+    "Naive grid: evenly spaced, snapped to the same candidate positions. Not counted in any search budget."
+  ],
+  "contract_version": "1.0",
+  "manifest": {
+    "seed": 1,
+    "config": {
+      "max_range_m": 15,
+      "grid_resolution_m": 1,
+      "candidate_spacing_m": 2,
+      "mounting": {
+        "mode": "floor_area",
+        "exclude_zone_types": []
+      },
+      "min_wall_clearance_m": 0.2,
+      "crowd_aware": true,
+      "crowd_model": {
+        "range_derate_per_density": 0.1,
+        "min_range_factor": 0.5,
+        "density_per_extra_anchor": 2,
+        "max_extra_anchors": 2
+      },
+      "fallback_density": 2,
+      "zones": [
+        {
+          "zone_id": "zone_001",
+          "density_people_m2": 2,
+          "density_source": "fallback"
+        }
+      ],
+      "seed": 1,
+      "search_budget": 20000,
+      "max_anchors": 40,
+      "search_seeds": 3,
+      "extension_levels": 2,
+      "anchor_cost_m": 0,
+      "evaluation": {
+        "trajectories": 3,
+        "steps": 360,
+        "speed_mps": 1,
+        "walk_radius_m": 15,
+        "dt_s": 0.5,
+        "seed": 1
+      },
+      "signal": {
+        "range_sigma_a_m": 0.15,
+        "range_sigma_b": 0.02,
+        "rssi_ref_dbm": -40,
+        "rssi_sigma_dbm": 2.5,
+        "nlos_bias_lo_m": 0.5,
+        "nlos_bias_hi_m": 3,
+        "packet_loss": 0.05
+      },
+      "crowd_effects": {
+        "sigma_per_density": 0.1,
+        "loss_per_density": 0.02,
+        "max_loss": 0.5,
+        "nlos_per_density": 0.05
+      },
+      "slot_policy": "nearest_valid_by_range_v1",
+      "predictor": "mock-trilateration",
+      "plan_image_sha256": "b283130efe6cfdd2d11e8319eb3f8508c064e6ba13afecca480e1d74b80d3acf",
+      "plan_metres_per_px": 0.05
+    },
+    "config_hash": "de36cb03d884f77a7bc52998d29d84657fe28b1c17013f17a1799a41116c5fb1",
+    "runtime": "node v22.22.0",
+    "git_commit": null,
+    "created_at": "2026-10-18T00:00:00.000Z",
+    "script": "planner/tools/run_optimizer.js"
+  }
+}

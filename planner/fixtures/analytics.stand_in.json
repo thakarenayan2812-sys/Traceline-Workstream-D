@@ -1,0 +1,336 @@
+{
+  "schema_version": "d8-proposed-layout-0.1",
+  "stand_in": true,
+  "seed": 4242,
+  "generator": "planner/tools/make_analytics_standin.js",
+  "caveats": [
+    "STAND-IN. Every number is a seeded placeholder, not a measurement, simulation or score.",
+    "Written by Workstream D so the panels can be built and tested. Workstream C replaces it with real output.",
+    "The layouts are D's proposal (planner/schemas/STAND_IN_FORMATS.md). C confirms or changes them."
+  ],
+  "error_map": {
+    "status": "stand_in",
+    "data": {
+      "cell_size_m": 2,
+      "support_threshold": 5,
+      "split": "placeholder split: train runs 1-6, dev runs 7-8 (not C's split)",
+      "before": {
+        "n": 240,
+        "median_m": 1.34,
+        "p90_m": 3.7
+      },
+      "after": {
+        "n": 240,
+        "median_m": 2.13,
+        "p90_m": 3.57
+      },
+      "cells": [
+        {
+          "x_m": 2,
+          "y_m": 2,
+          "n_obs": 8,
+          "mean_residual_m": -0.18
+        },
+        {
+          "x_m": 2,
+          "y_m": 6,
+          "n_obs": 13,
+          "mean_residual_m": 0.16
+        },
+        {
+          "x_m": 2,
+          "y_m": 10,
+          "n_obs": 10,
+          "mean_residual_m": -0.17
+        },
+        {
+          "x_m": 2,
+          "y_m": 14,
+          "n_obs": 5,
+          "mean_residual_m": 0
+        },
+        {
+          "x_m": 2,
+          "y_m": 18,
+          "n_obs": 6,
+          "mean_residual_m": 0.28
+        },
+        {
+          "x_m": 6,
+          "y_m": 2,
+          "n_obs": 10,
+          "mean_residual_m": 0.53
+        },
+        {
+          "x_m": 6,
+          "y_m": 6,
+          "n_obs": 9,
+          "mean_residual_m": 0.89
+        },
+        {
+          "x_m": 6,
+          "y_m": 10,
+          "n_obs": 6,
+          "mean_residual_m": 0.53
+        },
+        {
+          "x_m": 6,
+          "y_m": 14,
+          "n_obs": 12,
+          "mean_residual_m": -0.3
+        },
+        {
+          "x_m": 6,
+          "y_m": 18,
+          "n_obs": 9,
+          "mean_residual_m": -0.44
+        },
+        {
+          "x_m": 10,
+          "y_m": 2,
+          "n_obs": 4,
+          "mean_residual_m": -0.26
+        },
+        {
+          "x_m": 10,
+          "y_m": 6,
+          "n_obs": 3,
+          "mean_residual_m": -0.28
+        },
+        {
+          "x_m": 10,
+          "y_m": 10,
+          "n_obs": 3,
+          "mean_residual_m": -0.3
+        },
+        {
+          "x_m": 10,
+          "y_m": 14,
+          "n_obs": 7,
+          "mean_residual_m": 0.04
+        },
+        {
+          "x_m": 10,
+          "y_m": 18,
+          "n_obs": 8,
+          "mean_residual_m": 0.14
+        },
+        {
+          "x_m": 14,
+          "y_m": 2,
+          "n_obs": 13,
+          "mean_residual_m": -0.06
+        },
+        {
+          "x_m": 14,
+          "y_m": 6,
+          "n_obs": 3,
+          "mean_residual_m": 0.68
+        },
+        {
+          "x_m": 14,
+          "y_m": 10,
+          "n_obs": 2,
+          "mean_residual_m": 0.39
+        },
+        {
+          "x_m": 14,
+          "y_m": 14,
+          "n_obs": 10,
+          "mean_residual_m": -0.13
+        },
+        {
+          "x_m": 14,
+          "y_m": 18,
+          "n_obs": 12,
+          "mean_residual_m": -0.56
+        },
+        {
+          "x_m": 18,
+          "y_m": 2,
+          "n_obs": 13,
+          "mean_residual_m": -0.45
+        },
+        {
+          "x_m": 18,
+          "y_m": 6,
+          "n_obs": 7,
+          "mean_residual_m": 0.3
+        },
+        {
+          "x_m": 18,
+          "y_m": 10,
+          "n_obs": 11,
+          "mean_residual_m": 0.11
+        },
+        {
+          "x_m": 18,
+          "y_m": 14,
+          "n_obs": 10,
+          "mean_residual_m": 0.32
+        },
+        {
+          "x_m": 18,
+          "y_m": 18,
+          "n_obs": 13,
+          "mean_residual_m": -0.26
+        },
+        {
+          "x_m": 22,
+          "y_m": 2,
+          "n_obs": 13,
+          "mean_residual_m": 0.89
+        },
+        {
+          "x_m": 22,
+          "y_m": 6,
+          "n_obs": 3,
+          "mean_residual_m": -0.05
+        },
+        {
+          "x_m": 22,
+          "y_m": 10,
+          "n_obs": 11,
+          "mean_residual_m": -0.32
+        },
+        {
+          "x_m": 22,
+          "y_m": 14,
+          "n_obs": 13,
+          "mean_residual_m": 0.43
+        },
+        {
+          "x_m": 22,
+          "y_m": 18,
+          "n_obs": 9,
+          "mean_residual_m": -0.3
+        },
+        {
+          "x_m": 26,
+          "y_m": 2,
+          "n_obs": 11,
+          "mean_residual_m": 0.69
+        },
+        {
+          "x_m": 26,
+          "y_m": 6,
+          "n_obs": 11,
+          "mean_residual_m": 0.46
+        },
+        {
+          "x_m": 26,
+          "y_m": 10,
+          "n_obs": 3,
+          "mean_residual_m": 0.56
+        },
+        {
+          "x_m": 26,
+          "y_m": 14,
+          "n_obs": 12,
+          "mean_residual_m": 0.03
+        },
+        {
+          "x_m": 26,
+          "y_m": 18,
+          "n_obs": 12,
+          "mean_residual_m": 0.88
+        }
+      ]
+    }
+  },
+  "crowd_degradation": {
+    "status": "stand_in",
+    "data": {
+      "zones": [
+        {
+          "zone_id": "lobby",
+          "density_people_m2": 1,
+          "inside": {
+            "n": 100,
+            "median_m": 1.9,
+            "p90_m": 3.43,
+            "sigma_m_mean": 1.05
+          },
+          "outside": {
+            "n": 42,
+            "median_m": 1.4,
+            "p90_m": 3.42,
+            "sigma_m_mean": 1
+          }
+        }
+      ],
+      "crowd_input": {
+        "with_crowd": {
+          "n": 240,
+          "median_m": 1.25,
+          "p90_m": 3.07
+        },
+        "without_crowd": {
+          "n": 240,
+          "median_m": 1.69,
+          "p90_m": 3.07
+        }
+      }
+    }
+  },
+  "stress": {
+    "status": "stand_in",
+    "data": {
+      "conditions_run": 0,
+      "failure_threshold_m": 2,
+      "failure_rate": null,
+      "grid": {
+        "x_axis": "anchor count",
+        "y_axis": "range noise multiplier",
+        "x_labels": [
+          "3",
+          "4",
+          "5",
+          "6",
+          "8"
+        ],
+        "y_labels": [
+          "1x",
+          "2x",
+          "3x"
+        ],
+        "values": [
+          [
+            0.16,
+            0.7,
+            0.57,
+            0.05,
+            0.63
+          ],
+          [
+            1,
+            0.27,
+            0.55,
+            0.89,
+            0.64
+          ],
+          [
+            0.01,
+            0.64,
+            0.32,
+            0.75,
+            0.01
+          ]
+        ]
+      }
+    }
+  },
+  "emergency_flags": {
+    "status": "stand_in",
+    "data": {
+      "threshold_sigma_m": 1,
+      "error_threshold_m": 2,
+      "total_steps": 120,
+      "flagged_steps": 27,
+      "high_error_steps": 26,
+      "true_flags": 14,
+      "precision": 0.519,
+      "recall": 0.538
+    }
+  }
+}

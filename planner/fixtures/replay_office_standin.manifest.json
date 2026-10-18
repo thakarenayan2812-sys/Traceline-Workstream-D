@@ -1,0 +1,18 @@
+{
+  "script": "tools/make_sample_replay.js",
+  "seed": 4242,
+  "steps": 120,
+  "config": {
+    "range_a": 0.15,
+    "range_b": 0.02,
+    "rssi_ref": -40,
+    "rssi_sigma": 2.5,
+    "nlos_lo": 0.5,
+    "nlos_hi": 3,
+    "packet_loss": 0.05
+  },
+  "config_hash": "055be6eb198f43b082e7417690c8ef5873847c062f0da1f6c93d5cd0abc1f2dd",
+  "node": "v22.22.2",
+  "git_commit": "unknown",
+  "date": "2026-10-17T20:00:59.039Z"
+}

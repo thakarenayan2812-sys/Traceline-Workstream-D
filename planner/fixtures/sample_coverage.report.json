@@ -1,0 +1,283 @@
+{
+  "schema_version": "1.0",
+  "contract_version": "1.0",
+  "report_kind": "coverage_search",
+  "created_at": "2026-10-18T00:00:00.000Z",
+  "result": {
+    "status": "met",
+    "reason": null,
+    "proven": false,
+    "label": "Best found within search budget (not proven minimal)",
+    "k": 18,
+    "lower_bound": 8,
+    "greedy_pruned_size": 21,
+    "anchors": [
+      {
+        "anchor_id": 0,
+        "x_m": 3,
+        "y_m": 1,
+        "candidate_index": 15
+      },
+      {
+        "anchor_id": 1,
+        "x_m": 5,
+        "y_m": 3,
+        "candidate_index": 31
+      },
+      {
+        "anchor_id": 2,
+        "x_m": 5,
+        "y_m": 29,
+        "candidate_index": 44
+      },
+      {
+        "anchor_id": 3,
+        "x_m": 7,
+        "y_m": 13,
+        "candidate_index": 51
+      },
+      {
+        "anchor_id": 4,
+        "x_m": 7,
+        "y_m": 19,
+        "candidate_index": 54
+      },
+      {
+        "anchor_id": 5,
+        "x_m": 11,
+        "y_m": 25,
+        "candidate_index": 87
+      },
+      {
+        "anchor_id": 6,
+        "x_m": 17,
+        "y_m": 3,
+        "candidate_index": 111
+      },
+      {
+        "anchor_id": 7,
+        "x_m": 19,
+        "y_m": 11,
+        "candidate_index": 130
+      },
+      {
+        "anchor_id": 8,
+        "x_m": 21,
+        "y_m": 23,
+        "candidate_index": 150
+      },
+      {
+        "anchor_id": 9,
+        "x_m": 25,
+        "y_m": 25,
+        "candidate_index": 179
+      },
+      {
+        "anchor_id": 10,
+        "x_m": 27,
+        "y_m": 9,
+        "candidate_index": 186
+      },
+      {
+        "anchor_id": 11,
+        "x_m": 33,
+        "y_m": 19,
+        "candidate_index": 234
+      },
+      {
+        "anchor_id": 12,
+        "x_m": 35,
+        "y_m": 3,
+        "candidate_index": 241
+      },
+      {
+        "anchor_id": 13,
+        "x_m": 41,
+        "y_m": 3,
+        "candidate_index": 276
+      },
+      {
+        "anchor_id": 14,
+        "x_m": 41,
+        "y_m": 25,
+        "candidate_index": 287
+      },
+      {
+        "anchor_id": 15,
+        "x_m": 43,
+        "y_m": 17,
+        "candidate_index": 298
+      },
+      {
+        "anchor_id": 16,
+        "x_m": 47,
+        "y_m": 27,
+        "candidate_index": 333
+      },
+      {
+        "anchor_id": 17,
+        "x_m": 49,
+        "y_m": 5,
+        "candidate_index": 337
+      }
+    ],
+    "coverage": {
+      "walkable_cells": 1480,
+      "walkable_area_m2": 1480,
+      "uncovered_cells": 0,
+      "uncovered_fraction": 0,
+      "uncovered_area_m2": 0,
+      "worst_case": {
+        "x_m": 0.5,
+        "y_m": 0.5,
+        "usable_anchors": 3,
+        "required": 3
+      },
+      "usable_anchor_histogram": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 490,
+        "4_or_more": 990
+      },
+      "criterion_met": true
+    },
+    "infeasible": {
+      "cells": 0,
+      "fraction": 0
+    },
+    "search": {
+      "seed": 1,
+      "budget": 20000,
+      "evaluations_used": 17767,
+      "max_anchors": 40,
+      "levels": [
+        {
+          "k": 8,
+          "evaluations": 861,
+          "success": false
+        },
+        {
+          "k": 9,
+          "evaluations": 861,
+          "success": false
+        },
+        {
+          "k": 10,
+          "evaluations": 861,
+          "success": false
+        },
+        {
+          "k": 11,
+          "evaluations": 862,
+          "success": false
+        },
+        {
+          "k": 12,
+          "evaluations": 861,
+          "success": false
+        },
+        {
+          "k": 13,
+          "evaluations": 861,
+          "success": false
+        },
+        {
+          "k": 14,
+          "evaluations": 861,
+          "success": false
+        },
+        {
+          "k": 15,
+          "evaluations": 861,
+          "success": false
+        },
+        {
+          "k": 16,
+          "evaluations": 862,
+          "success": false
+        },
+        {
+          "k": 17,
+          "evaluations": 862,
+          "success": false
+        },
+        {
+          "k": 18,
+          "evaluations": 353,
+          "success": true
+        }
+      ],
+      "stopped": false,
+      "candidates": 350,
+      "candidate_spacing_m": 2,
+      "mounting": {
+        "mode": "floor_area",
+        "exclude_zone_types": []
+      },
+      "min_wall_clearance_m": 0.2
+    },
+    "naive_grid": {
+      "same_k": {
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480,
+        "uncovered_cells": 22,
+        "uncovered_fraction": 0.014864864864864866,
+        "uncovered_area_m2": 22,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 2,
+          "required": 3
+        },
+        "usable_anchor_histogram": {
+          "0": 0,
+          "1": 0,
+          "2": 22,
+          "3": 346,
+          "4_or_more": 1112
+        },
+        "criterion_met": false
+      },
+      "min_k_to_meet": 22,
+      "note": "Evenly spaced grid snapped to the same candidate positions. Not counted in the search budget."
+    },
+    "exceeds_model_slots": true
+  },
+  "assumptions": [
+    "A walkable grid cell counts as covered when at least 3 anchors are within 15 m of its centre with no traced wall or obstacle in between.",
+    "Grid resolution is 1 m; each cell is judged at its centre only, so small gaps inside a cell can be missed.",
+    "Range is an assumed hard limit set by the user, not a measured value. Real range varies with noise, obstructions and crowds.",
+    "Every traced wall blocks completely. Walls that were not traced do not exist in this model.",
+    "Anchors may only be placed at the 350 candidate positions tested (on a regular floor lattice, spacing 2 m, at least 0.2 m from any wall).",
+    "A 'proven' minimum holds only for that candidate set, grid and range; other positions could need fewer anchors."
+  ],
+  "warnings": [
+    "Simulated geometric coverage only. It is not a guarantee of radio performance: walls, crowds, equipment and interference change real signals. Run a site survey before installing anything.",
+    "This layout needs 18 anchors; the model contract supports at most 8, so it cannot be exported into a venue file as is."
+  ],
+  "manifest": {
+    "seed": 1,
+    "config": {
+      "required_usable_anchors": 3,
+      "max_range_m": 15,
+      "grid_resolution_m": 1,
+      "candidate_spacing_m": 2,
+      "min_wall_clearance_m": 0.2,
+      "mounting": {
+        "mode": "floor_area",
+        "exclude_zone_types": []
+      },
+      "seed": 1,
+      "search_budget": 20000,
+      "max_anchors": 40,
+      "plan_image_sha256": "b283130efe6cfdd2d11e8319eb3f8508c064e6ba13afecca480e1d74b80d3acf",
+      "plan_metres_per_px": 0.05
+    },
+    "config_hash": "240c6c678a942d5a150be27ed68c3131a82ed4313f6a48677388c899e95f2d6a",
+    "runtime": "node v22.22.2",
+    "git_commit": null,
+    "created_at": "2026-10-18T00:00:00.000Z",
+    "script": "planner/src/plan/search.js"
+  }
+}

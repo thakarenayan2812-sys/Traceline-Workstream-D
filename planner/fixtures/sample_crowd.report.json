@@ -1,0 +1,1287 @@
+{
+  "schema_version": "1.0",
+  "contract_version": "1.0",
+  "report_kind": "crowd_comparison",
+  "created_at": "2026-10-18T00:00:00.000Z",
+  "status": "ok",
+  "crowd_model": {
+    "range_derate_per_density": 0.1,
+    "min_range_factor": 0.5,
+    "density_per_extra_anchor": 2,
+    "max_extra_anchors": 2
+  },
+  "crowd_model_description": [
+    "Usable range along a path = assumed range x max(0.5, 1 - 0.1 x mean density on the path), where density is in people per m2.",
+    "Usable anchors needed at a cell = base requirement + min(2, ceil(density at the cell / 2)), and no extra where density is 0.",
+    "Where crowd zones overlap, the higher density applies.",
+    "These coefficients are planning assumptions chosen by the planner author. They are not measured and not yet aligned with the simulator's crowd formula."
+  ],
+  "zones": [
+    {
+      "zone_id": "zone_001",
+      "name": "Entrance crowd",
+      "polygon": [
+        [
+          12,
+          6
+        ],
+        [
+          11.904,
+          6.975
+        ],
+        [
+          11.619,
+          7.913
+        ],
+        [
+          11.157,
+          8.778
+        ],
+        [
+          10.536,
+          9.536
+        ],
+        [
+          9.778,
+          10.157
+        ],
+        [
+          8.913,
+          10.619
+        ],
+        [
+          7.975,
+          10.904
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          6.025,
+          10.904
+        ],
+        [
+          5.087,
+          10.619
+        ],
+        [
+          4.222,
+          10.157
+        ],
+        [
+          3.464,
+          9.536
+        ],
+        [
+          2.843,
+          8.778
+        ],
+        [
+          2.381,
+          7.913
+        ],
+        [
+          2.096,
+          6.975
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2.096,
+          5.025
+        ],
+        [
+          2.381,
+          4.087
+        ],
+        [
+          2.843,
+          3.222
+        ],
+        [
+          3.464,
+          2.464
+        ],
+        [
+          4.222,
+          1.843
+        ],
+        [
+          5.087,
+          1.381
+        ],
+        [
+          6.025,
+          1.096
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          7.975,
+          1.096
+        ],
+        [
+          8.913,
+          1.381
+        ],
+        [
+          9.778,
+          1.843
+        ],
+        [
+          10.536,
+          2.464
+        ],
+        [
+          11.157,
+          3.222
+        ],
+        [
+          11.619,
+          4.087
+        ],
+        [
+          11.904,
+          5.025
+        ]
+      ],
+      "density_people_m2": 2,
+      "density_source": "fallback"
+    }
+  ],
+  "searches": {
+    "unaware": {
+      "status": "met",
+      "reason": null,
+      "proven": false,
+      "label": "Best found within search budget (not proven minimal)",
+      "k": 18,
+      "lower_bound": 8,
+      "greedy_pruned_size": 21,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 1,
+          "candidate_index": 15
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 3,
+          "candidate_index": 31
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 29,
+          "candidate_index": 44
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 13,
+          "candidate_index": 51
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 7,
+          "y_m": 19,
+          "candidate_index": 54
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 11,
+          "y_m": 25,
+          "candidate_index": 87
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 17,
+          "y_m": 3,
+          "candidate_index": 111
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 19,
+          "y_m": 11,
+          "candidate_index": 130
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 23,
+          "candidate_index": 150
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 25,
+          "y_m": 25,
+          "candidate_index": 179
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 27,
+          "y_m": 9,
+          "candidate_index": 186
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 33,
+          "y_m": 19,
+          "candidate_index": 234
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 35,
+          "y_m": 3,
+          "candidate_index": 241
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 41,
+          "y_m": 3,
+          "candidate_index": 276
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 41,
+          "y_m": 25,
+          "candidate_index": 287
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 43,
+          "y_m": 17,
+          "candidate_index": 298
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 47,
+          "y_m": 27,
+          "candidate_index": 333
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 49,
+          "y_m": 5,
+          "candidate_index": 337
+        }
+      ],
+      "coverage": {
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480,
+        "uncovered_cells": 0,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "usable_anchor_histogram": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 490,
+          "4_or_more": 990
+        },
+        "criterion_met": true
+      },
+      "infeasible": {
+        "cells": 0,
+        "fraction": 0
+      },
+      "search": {
+        "seed": 1,
+        "budget": 20000,
+        "evaluations_used": 17767,
+        "max_anchors": 40,
+        "levels": [
+          {
+            "k": 8,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 9,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 10,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 11,
+            "evaluations": 862,
+            "success": false
+          },
+          {
+            "k": 12,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 13,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 14,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 15,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 16,
+            "evaluations": 862,
+            "success": false
+          },
+          {
+            "k": 17,
+            "evaluations": 862,
+            "success": false
+          },
+          {
+            "k": 18,
+            "evaluations": 353,
+            "success": true
+          }
+        ],
+        "stopped": false,
+        "candidates": 350,
+        "candidate_spacing_m": 2,
+        "mounting": {
+          "mode": "floor_area",
+          "exclude_zone_types": []
+        },
+        "min_wall_clearance_m": 0.2
+      },
+      "naive_grid": {
+        "same_k": {
+          "walkable_cells": 1480,
+          "walkable_area_m2": 1480,
+          "uncovered_cells": 22,
+          "uncovered_fraction": 0.014864864864864866,
+          "uncovered_area_m2": 22,
+          "worst_case": {
+            "x_m": 0.5,
+            "y_m": 0.5,
+            "usable_anchors": 2,
+            "required": 3
+          },
+          "usable_anchor_histogram": {
+            "0": 0,
+            "1": 0,
+            "2": 22,
+            "3": 346,
+            "4_or_more": 1112
+          },
+          "criterion_met": false
+        },
+        "min_k_to_meet": 22,
+        "note": "Evenly spaced grid snapped to the same candidate positions. Not counted in the search budget."
+      },
+      "exceeds_model_slots": true
+    },
+    "aware": {
+      "status": "met",
+      "reason": null,
+      "proven": false,
+      "label": "Best found within search budget (not proven minimal)",
+      "k": 19,
+      "lower_bound": 8,
+      "greedy_pruned_size": 22,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 3,
+          "y_m": 1,
+          "candidate_index": 15
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 5,
+          "y_m": 13,
+          "candidate_index": 36
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 19,
+          "candidate_index": 39
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 7,
+          "y_m": 21,
+          "candidate_index": 55
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 9,
+          "y_m": 23,
+          "candidate_index": 71
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 1,
+          "candidate_index": 90
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 13,
+          "y_m": 7,
+          "candidate_index": 93
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 21,
+          "y_m": 3,
+          "candidate_index": 141
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 23,
+          "candidate_index": 150
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 23,
+          "y_m": 7,
+          "candidate_index": 157
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 25,
+          "y_m": 5,
+          "candidate_index": 170
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 25,
+          "y_m": 27,
+          "candidate_index": 180
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 31,
+          "y_m": 23,
+          "candidate_index": 221
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 37,
+          "y_m": 5,
+          "candidate_index": 247
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 37,
+          "y_m": 23,
+          "candidate_index": 256
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 43,
+          "y_m": 7,
+          "candidate_index": 293
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 43,
+          "y_m": 17,
+          "candidate_index": 298
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 45,
+          "y_m": 29,
+          "candidate_index": 319
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 47,
+          "y_m": 7,
+          "candidate_index": 323
+        }
+      ],
+      "coverage": {
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480,
+        "uncovered_cells": 0,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "usable_anchor_histogram": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 432,
+          "4_or_more": 1048
+        },
+        "criterion_met": true
+      },
+      "infeasible": {
+        "cells": 0,
+        "fraction": 0
+      },
+      "search": {
+        "seed": 1,
+        "budget": 20000,
+        "evaluations_used": 18307,
+        "max_anchors": 40,
+        "levels": [
+          {
+            "k": 8,
+            "evaluations": 753,
+            "success": false
+          },
+          {
+            "k": 9,
+            "evaluations": 753,
+            "success": false
+          },
+          {
+            "k": 10,
+            "evaluations": 753,
+            "success": false
+          },
+          {
+            "k": 11,
+            "evaluations": 753,
+            "success": false
+          },
+          {
+            "k": 12,
+            "evaluations": 753,
+            "success": false
+          },
+          {
+            "k": 13,
+            "evaluations": 753,
+            "success": false
+          },
+          {
+            "k": 14,
+            "evaluations": 754,
+            "success": false
+          },
+          {
+            "k": 15,
+            "evaluations": 754,
+            "success": false
+          },
+          {
+            "k": 16,
+            "evaluations": 754,
+            "success": false
+          },
+          {
+            "k": 17,
+            "evaluations": 754,
+            "success": false
+          },
+          {
+            "k": 18,
+            "evaluations": 754,
+            "success": false
+          },
+          {
+            "k": 19,
+            "evaluations": 569,
+            "success": true
+          }
+        ],
+        "stopped": false,
+        "candidates": 350,
+        "candidate_spacing_m": 2,
+        "mounting": {
+          "mode": "floor_area",
+          "exclude_zone_types": []
+        },
+        "min_wall_clearance_m": 0.2
+      },
+      "naive_grid": {
+        "same_k": {
+          "walkable_cells": 1480,
+          "walkable_area_m2": 1480,
+          "uncovered_cells": 15,
+          "uncovered_fraction": 0.010135135135135136,
+          "uncovered_area_m2": 15,
+          "worst_case": {
+            "x_m": 48.5,
+            "y_m": 0.5,
+            "usable_anchors": 2,
+            "required": 3
+          },
+          "usable_anchor_histogram": {
+            "0": 0,
+            "1": 0,
+            "2": 14,
+            "3": 463,
+            "4_or_more": 1003
+          },
+          "criterion_met": false
+        },
+        "min_k_to_meet": 22,
+        "note": "Evenly spaced grid snapped to the same candidate positions. Not counted in the search budget."
+      },
+      "exceeds_model_slots": true
+    },
+    "unaware_seed_control": {
+      "status": "met",
+      "reason": null,
+      "proven": false,
+      "label": "Best found within search budget (not proven minimal)",
+      "k": 19,
+      "lower_bound": 8,
+      "greedy_pruned_size": 21,
+      "anchors": [
+        {
+          "anchor_id": 0,
+          "x_m": 1,
+          "y_m": 3,
+          "candidate_index": 1
+        },
+        {
+          "anchor_id": 1,
+          "x_m": 3,
+          "y_m": 29,
+          "candidate_index": 29
+        },
+        {
+          "anchor_id": 2,
+          "x_m": 5,
+          "y_m": 9,
+          "candidate_index": 34
+        },
+        {
+          "anchor_id": 3,
+          "x_m": 5,
+          "y_m": 17,
+          "candidate_index": 38
+        },
+        {
+          "anchor_id": 4,
+          "x_m": 7,
+          "y_m": 5,
+          "candidate_index": 47
+        },
+        {
+          "anchor_id": 5,
+          "x_m": 13,
+          "y_m": 27,
+          "candidate_index": 103
+        },
+        {
+          "anchor_id": 6,
+          "x_m": 17,
+          "y_m": 7,
+          "candidate_index": 113
+        },
+        {
+          "anchor_id": 7,
+          "x_m": 21,
+          "y_m": 25,
+          "candidate_index": 151
+        },
+        {
+          "anchor_id": 8,
+          "x_m": 21,
+          "y_m": 27,
+          "candidate_index": 152
+        },
+        {
+          "anchor_id": 9,
+          "x_m": 27,
+          "y_m": 1,
+          "candidate_index": 182
+        },
+        {
+          "anchor_id": 10,
+          "x_m": 29,
+          "y_m": 7,
+          "candidate_index": 199
+        },
+        {
+          "anchor_id": 11,
+          "x_m": 31,
+          "y_m": 29,
+          "candidate_index": 224
+        },
+        {
+          "anchor_id": 12,
+          "x_m": 33,
+          "y_m": 7,
+          "candidate_index": 228
+        },
+        {
+          "anchor_id": 13,
+          "x_m": 43,
+          "y_m": 11,
+          "candidate_index": 295
+        },
+        {
+          "anchor_id": 14,
+          "x_m": 43,
+          "y_m": 17,
+          "candidate_index": 298
+        },
+        {
+          "anchor_id": 15,
+          "x_m": 43,
+          "y_m": 21,
+          "candidate_index": 300
+        },
+        {
+          "anchor_id": 16,
+          "x_m": 45,
+          "y_m": 9,
+          "candidate_index": 309
+        },
+        {
+          "anchor_id": 17,
+          "x_m": 45,
+          "y_m": 29,
+          "candidate_index": 319
+        },
+        {
+          "anchor_id": 18,
+          "x_m": 49,
+          "y_m": 5,
+          "candidate_index": 337
+        }
+      ],
+      "coverage": {
+        "walkable_cells": 1480,
+        "walkable_area_m2": 1480,
+        "uncovered_cells": 0,
+        "uncovered_fraction": 0,
+        "uncovered_area_m2": 0,
+        "worst_case": {
+          "x_m": 0.5,
+          "y_m": 0.5,
+          "usable_anchors": 3,
+          "required": 3
+        },
+        "usable_anchor_histogram": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 307,
+          "4_or_more": 1173
+        },
+        "criterion_met": true
+      },
+      "infeasible": {
+        "cells": 0,
+        "fraction": 0
+      },
+      "search": {
+        "seed": 2,
+        "budget": 20000,
+        "evaluations_used": 18455,
+        "max_anchors": 40,
+        "levels": [
+          {
+            "k": 8,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 9,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 10,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 11,
+            "evaluations": 862,
+            "success": false
+          },
+          {
+            "k": 12,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 13,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 14,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 15,
+            "evaluations": 861,
+            "success": false
+          },
+          {
+            "k": 16,
+            "evaluations": 862,
+            "success": false
+          },
+          {
+            "k": 17,
+            "evaluations": 862,
+            "success": false
+          },
+          {
+            "k": 18,
+            "evaluations": 862,
+            "success": false
+          },
+          {
+            "k": 19,
+            "evaluations": 179,
+            "success": true
+          }
+        ],
+        "stopped": false,
+        "candidates": 350,
+        "candidate_spacing_m": 2,
+        "mounting": {
+          "mode": "floor_area",
+          "exclude_zone_types": []
+        },
+        "min_wall_clearance_m": 0.2
+      },
+      "naive_grid": {
+        "same_k": {
+          "walkable_cells": 1480,
+          "walkable_area_m2": 1480,
+          "uncovered_cells": 14,
+          "uncovered_fraction": 0.00945945945945946,
+          "uncovered_area_m2": 14,
+          "worst_case": {
+            "x_m": 48.5,
+            "y_m": 0.5,
+            "usable_anchors": 2,
+            "required": 3
+          },
+          "usable_anchor_histogram": {
+            "0": 0,
+            "1": 0,
+            "2": 14,
+            "3": 445,
+            "4_or_more": 1021
+          },
+          "criterion_met": false
+        },
+        "min_k_to_meet": 22,
+        "note": "Evenly spaced grid snapped to the same candidate positions. Not counted in the search budget."
+      },
+      "exceeds_model_slots": true
+    }
+  },
+  "judged_by_crowd_aware_criterion": {
+    "unaware": {
+      "anchors": 18,
+      "criterion_met": false,
+      "regions": {
+        "all": {
+          "cells": 1480,
+          "area_m2": 1480,
+          "uncovered_cells": 40,
+          "uncovered_fraction": 0.027,
+          "mean_usable_anchors": 4.0689,
+          "min_usable_anchors": 2,
+          "mean_required_anchors": 3.0541
+        },
+        "inside_crowd": {
+          "cells": 80,
+          "area_m2": 80,
+          "uncovered_cells": 32,
+          "uncovered_fraction": 0.4,
+          "mean_usable_anchors": 3.6125,
+          "min_usable_anchors": 3,
+          "mean_required_anchors": 4
+        },
+        "outside_crowd": {
+          "cells": 1400,
+          "area_m2": 1400,
+          "uncovered_cells": 8,
+          "uncovered_fraction": 0.0057,
+          "mean_usable_anchors": 4.095,
+          "min_usable_anchors": 2,
+          "mean_required_anchors": 3
+        },
+        "zone_001": {
+          "cells": 80,
+          "area_m2": 80,
+          "uncovered_cells": 32,
+          "uncovered_fraction": 0.4,
+          "mean_usable_anchors": 3.6125,
+          "min_usable_anchors": 3,
+          "mean_required_anchors": 4
+        }
+      }
+    },
+    "aware": {
+      "anchors": 19,
+      "criterion_met": true,
+      "regions": {
+        "all": {
+          "cells": 1480,
+          "area_m2": 1480,
+          "uncovered_cells": 0,
+          "uncovered_fraction": 0,
+          "mean_usable_anchors": 4.3946,
+          "min_usable_anchors": 3,
+          "mean_required_anchors": 3.0541
+        },
+        "inside_crowd": {
+          "cells": 80,
+          "area_m2": 80,
+          "uncovered_cells": 0,
+          "uncovered_fraction": 0,
+          "mean_usable_anchors": 5.1,
+          "min_usable_anchors": 4,
+          "mean_required_anchors": 4
+        },
+        "outside_crowd": {
+          "cells": 1400,
+          "area_m2": 1400,
+          "uncovered_cells": 0,
+          "uncovered_fraction": 0,
+          "mean_usable_anchors": 4.3543,
+          "min_usable_anchors": 3,
+          "mean_required_anchors": 3
+        },
+        "zone_001": {
+          "cells": 80,
+          "area_m2": 80,
+          "uncovered_cells": 0,
+          "uncovered_fraction": 0,
+          "mean_usable_anchors": 5.1,
+          "min_usable_anchors": 4,
+          "mean_required_anchors": 4
+        }
+      }
+    },
+    "naive_grid_same_k": {
+      "anchors": 19,
+      "criterion_met": false,
+      "regions": {
+        "all": {
+          "cells": 1480,
+          "area_m2": 1480,
+          "uncovered_cells": 15,
+          "uncovered_fraction": 0.0101,
+          "mean_usable_anchors": 4.5257,
+          "min_usable_anchors": 2,
+          "mean_required_anchors": 3.0541
+        },
+        "inside_crowd": {
+          "cells": 80,
+          "area_m2": 80,
+          "uncovered_cells": 1,
+          "uncovered_fraction": 0.0125,
+          "mean_usable_anchors": 5.025,
+          "min_usable_anchors": 3,
+          "mean_required_anchors": 4
+        },
+        "outside_crowd": {
+          "cells": 1400,
+          "area_m2": 1400,
+          "uncovered_cells": 14,
+          "uncovered_fraction": 0.01,
+          "mean_usable_anchors": 4.4971,
+          "min_usable_anchors": 2,
+          "mean_required_anchors": 3
+        },
+        "zone_001": {
+          "cells": 80,
+          "area_m2": 80,
+          "uncovered_cells": 1,
+          "uncovered_fraction": 0.0125,
+          "mean_usable_anchors": 5.025,
+          "min_usable_anchors": 3,
+          "mean_required_anchors": 4
+        }
+      }
+    }
+  },
+  "meets_plain_criterion": {
+    "unaware": true,
+    "aware": true
+  },
+  "difference": {
+    "anchors_unaware": 18,
+    "anchors_aware": 19,
+    "extra_anchors_for_crowds": 1,
+    "kept": [
+      {
+        "candidate_index": 15,
+        "x_m": 3,
+        "y_m": 1
+      },
+      {
+        "candidate_index": 150,
+        "x_m": 21,
+        "y_m": 23
+      },
+      {
+        "candidate_index": 298,
+        "x_m": 43,
+        "y_m": 17
+      }
+    ],
+    "added_for_crowds": [
+      {
+        "candidate_index": 36,
+        "x_m": 5,
+        "y_m": 13
+      },
+      {
+        "candidate_index": 39,
+        "x_m": 5,
+        "y_m": 19
+      },
+      {
+        "candidate_index": 55,
+        "x_m": 7,
+        "y_m": 21
+      },
+      {
+        "candidate_index": 71,
+        "x_m": 9,
+        "y_m": 23
+      },
+      {
+        "candidate_index": 90,
+        "x_m": 13,
+        "y_m": 1
+      },
+      {
+        "candidate_index": 93,
+        "x_m": 13,
+        "y_m": 7
+      },
+      {
+        "candidate_index": 141,
+        "x_m": 21,
+        "y_m": 3
+      },
+      {
+        "candidate_index": 157,
+        "x_m": 23,
+        "y_m": 7
+      },
+      {
+        "candidate_index": 170,
+        "x_m": 25,
+        "y_m": 5
+      },
+      {
+        "candidate_index": 180,
+        "x_m": 25,
+        "y_m": 27
+      },
+      {
+        "candidate_index": 221,
+        "x_m": 31,
+        "y_m": 23
+      },
+      {
+        "candidate_index": 247,
+        "x_m": 37,
+        "y_m": 5
+      },
+      {
+        "candidate_index": 256,
+        "x_m": 37,
+        "y_m": 23
+      },
+      {
+        "candidate_index": 293,
+        "x_m": 43,
+        "y_m": 7
+      },
+      {
+        "candidate_index": 319,
+        "x_m": 45,
+        "y_m": 29
+      },
+      {
+        "candidate_index": 323,
+        "x_m": 47,
+        "y_m": 7
+      }
+    ],
+    "removed_by_crowds": [
+      {
+        "candidate_index": 31,
+        "x_m": 5,
+        "y_m": 3
+      },
+      {
+        "candidate_index": 44,
+        "x_m": 5,
+        "y_m": 29
+      },
+      {
+        "candidate_index": 51,
+        "x_m": 7,
+        "y_m": 13
+      },
+      {
+        "candidate_index": 54,
+        "x_m": 7,
+        "y_m": 19
+      },
+      {
+        "candidate_index": 87,
+        "x_m": 11,
+        "y_m": 25
+      },
+      {
+        "candidate_index": 111,
+        "x_m": 17,
+        "y_m": 3
+      },
+      {
+        "candidate_index": 130,
+        "x_m": 19,
+        "y_m": 11
+      },
+      {
+        "candidate_index": 179,
+        "x_m": 25,
+        "y_m": 25
+      },
+      {
+        "candidate_index": 186,
+        "x_m": 27,
+        "y_m": 9
+      },
+      {
+        "candidate_index": 234,
+        "x_m": 33,
+        "y_m": 19
+      },
+      {
+        "candidate_index": 241,
+        "x_m": 35,
+        "y_m": 3
+      },
+      {
+        "candidate_index": 276,
+        "x_m": 41,
+        "y_m": 3
+      },
+      {
+        "candidate_index": 287,
+        "x_m": 41,
+        "y_m": 25
+      },
+      {
+        "candidate_index": 333,
+        "x_m": 47,
+        "y_m": 27
+      },
+      {
+        "candidate_index": 337,
+        "x_m": 49,
+        "y_m": 5
+      }
+    ],
+    "search_variation_anchors": 1,
+    "extra_exceeds_search_variation": false,
+    "seed_control": {
+      "seed": 2,
+      "anchors": 19,
+      "shared_with_unaware": 2,
+      "note": "The unaware search repeated with another seed. If this shared count is close to the aware/unaware shared count, the layout differences could be search variation rather than the crowd model."
+    }
+  },
+  "warnings": [
+    "Simulated geometric coverage only. It is not a guarantee of radio performance: walls, crowds, equipment and interference change real signals. Run a site survey before installing anything.",
+    "Some crowd zones had no density and use the fallback density you entered.",
+    "A layout needs more than 8 anchors, so it cannot be exported into a venue file (model contract: at most 8 slots)."
+  ],
+  "simulated_error": {
+    "status": "not_yet_generated",
+    "reason": "Median and P90 positioning error under crowds need the simulator adapter built in D6."
+  },
+  "notes": [
+    "All three layouts use the same candidate positions, grid and range; only the crowd model differs.",
+    "The aware requirement is stricter by construction, so it needs at least as many anchors. The result shows how many more and where, not that real accuracy improves.",
+    "Simulated positioning error inside crowd zones is the real test and is not part of this report."
+  ],
+  "assumptions": [
+    "A walkable grid cell counts as covered when at least 3 anchors are within 15 m of its centre with no traced wall or obstacle in between.",
+    "Grid resolution is 1 m; each cell is judged at its centre only, so small gaps inside a cell can be missed.",
+    "Range is an assumed hard limit set by the user, not a measured value. Real range varies with noise, obstructions and crowds.",
+    "Every traced wall blocks completely. Walls that were not traced do not exist in this model.",
+    "Anchors may only be placed at the 350 candidate positions tested (on a regular floor lattice, spacing 2 m, at least 0.2 m from any wall).",
+    "A 'proven' minimum holds only for that candidate set, grid and range; other positions could need fewer anchors.",
+    "Usable range along a path = assumed range x max(0.5, 1 - 0.1 x mean density on the path), where density is in people per m2.",
+    "Usable anchors needed at a cell = base requirement + min(2, ceil(density at the cell / 2)), and no extra where density is 0.",
+    "Where crowd zones overlap, the higher density applies.",
+    "These coefficients are planning assumptions chosen by the planner author. They are not measured and not yet aligned with the simulator's crowd formula."
+  ],
+  "manifest": {
+    "seed": 1,
+    "config": {
+      "max_range_m": 15,
+      "grid_resolution_m": 1,
+      "candidate_spacing_m": 2,
+      "mounting": {
+        "mode": "floor_area",
+        "exclude_zone_types": []
+      },
+      "crowd_model": {
+        "range_derate_per_density": 0.1,
+        "min_range_factor": 0.5,
+        "density_per_extra_anchor": 2,
+        "max_extra_anchors": 2
+      },
+      "fallback_density": 2,
+      "seed": 1,
+      "search_budget": 20000,
+      "max_anchors": 40,
+      "zones": [
+        {
+          "zone_id": "zone_001",
+          "density_people_m2": 2,
+          "density_source": "fallback"
+        }
+      ],
+      "plan_image_sha256": "b283130efe6cfdd2d11e8319eb3f8508c064e6ba13afecca480e1d74b80d3acf",
+      "plan_metres_per_px": 0.05
+    },
+    "config_hash": "276611e03c974920a6d0d186ce92bd5a7eb3f700bb5506bf9db144dc7c00d75c",
+    "runtime": "node v22.22.2",
+    "git_commit": null,
+    "created_at": "2026-10-18T00:00:00.000Z",
+    "script": "planner/src/plan/crowd_compare.js"
+  }
+}

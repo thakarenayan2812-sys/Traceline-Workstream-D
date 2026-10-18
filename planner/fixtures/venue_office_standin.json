@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "venue_id": "office",
+  "width_m": 30,
+  "height_m": 20,
+  "anchors": [
+    {"anchor_id": 0, "x_m": 1.0,  "y_m": 1.0,  "enabled": true, "anchor_type": "ceiling"},
+    {"anchor_id": 1, "x_m": 29.0, "y_m": 1.0,  "enabled": true, "anchor_type": "ceiling"},
+    {"anchor_id": 2, "x_m": 29.0, "y_m": 19.0, "enabled": true, "anchor_type": "ceiling"},
+    {"anchor_id": 3, "x_m": 1.0,  "y_m": 19.0, "enabled": true, "anchor_type": "ceiling"},
+    {"anchor_id": 4, "x_m": 15.0, "y_m": 10.0, "enabled": true, "anchor_type": "ceiling"},
+    {"anchor_id": 5, "x_m": 15.0, "y_m": 1.0,  "enabled": true, "anchor_type": "ceiling"}
+  ],
+  "walls": [
+    {"wall_id": "ext_s", "x1_m": 0,  "y1_m": 0,  "x2_m": 30, "y2_m": 0,  "material": "concrete"},
+    {"wall_id": "ext_e", "x1_m": 30, "y1_m": 0,  "x2_m": 30, "y2_m": 20, "material": "concrete"},
+    {"wall_id": "ext_n", "x1_m": 30, "y1_m": 20, "x2_m": 0,  "y2_m": 20, "material": "concrete"},
+    {"wall_id": "ext_w", "x1_m": 0,  "y1_m": 20, "x2_m": 0,  "y2_m": 0,  "material": "concrete"},
+    {"wall_id": "int_a", "x1_m": 10, "y1_m": 0,  "x2_m": 10, "y2_m": 14, "material": "drywall"},
+    {"wall_id": "int_b", "x1_m": 20, "y1_m": 6,  "x2_m": 20, "y2_m": 20, "material": "drywall"}
+  ],
+  "obstacles": [
+    {"obstacle_id": "shelf_1", "vertices": [[12, 12], [18, 12], [18, 13], [12, 13]]}
+  ],
+  "zones": [
+    {"zone_id": "lobby", "zone_type": "crowd", "name": "Lobby", "polygon": [[0, 0], [10, 0], [10, 6], [0, 6]]},
+    {"zone_id": "server_room", "zone_type": "restricted", "name": "Server room", "polygon": [[20, 14], [30, 14], [30, 20], [20, 20]]}
+  ],
+  "metadata": {
+    "stand_in": true,
+    "note": "Hand-written stand-in venue for Workstream D development. Replace with A's shared/venues/office.json."
+  }
+}
